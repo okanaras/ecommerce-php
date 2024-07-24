@@ -1,3 +1,12 @@
+<?php
+require_once 'islem/baglanti.php';
+
+$ayar = $baglanti->prepare("SELECT * FROM ayarlar WHERE id=?");
+$ayar->execute([1]);
+
+$ayarCek = $ayar->fetch(PDO::FETCH_ASSOC);
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -33,7 +42,7 @@
   <div class="wrapper">
 
     <!-- Navbar -->
-    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light mb-3">
       <!-- Left navbar links -->
       <ul class="navbar-nav">
         <li class="nav-item">
