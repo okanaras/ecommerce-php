@@ -21,10 +21,12 @@
 
           <!-- Sidebar Menu -->
           <nav class="mt-2">
+              <?php $sideUri = explode('.', explode('/', $_SERVER['REQUEST_URI'])[3])[0]; ?>
+
               <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                   data-accordion="false">
                   <li class="nav-item">
-                      <a href="index" class="nav-link">
+                      <a href="index" class="nav-link <?= $sideUri === 'index' ? 'active' : '' ?>">
                           <i class="nav-icon fas fa-home"></i>
                           <p>
                               Anasayfa
@@ -33,7 +35,7 @@
                       </a>
                   </li>
                   <li class="nav-item">
-                      <a href="kategori" class="nav-link">
+                      <a href="kategori" class="nav-link <?= $sideUri === 'kategori' ? 'active' : '' ?>">
                           <i class="nav-icon fas fa-bars"></i>
                           <p>
                               Kategoriler
@@ -42,7 +44,7 @@
                       </a>
                   </li>
                   <li class="nav-item">
-                      <a href="hakkimizda" class="nav-link">
+                      <a href="hakkimizda" class="nav-link <?= $sideUri === 'hakkimizda' ? 'active' : '' ?>">
                           <i class="nav-icon fas fa-address-card"></i>
                           <p>
                               Hakkımızda
@@ -51,7 +53,7 @@
                       </a>
                   </li>
                   <li class="nav-item">
-                      <a href="slider" class="nav-link">
+                      <a href="slider" class="nav-link <?= $sideUri === 'slider' ? 'active' : '' ?>">
                           <i class="nav-icon fas fa-image"></i>
                           <p>
                               Slider
@@ -60,7 +62,7 @@
                       </a>
                   </li>
                   <li class="nav-item">
-                      <a href="uyeler" class="nav-link">
+                      <a href="uyeler" class="nav-link <?= $sideUri === 'uyeler' ? 'active' : '' ?>">
                           <i class="nav-icon fas fa-users"></i>
                           <p>
                               Üyeler
@@ -69,7 +71,7 @@
                       </a>
                   </li>
                   <li class="nav-item">
-                      <a href="yorumlar" class="nav-link">
+                      <a href="yorumlar" class="nav-link <?= $sideUri === 'yorumlar' ? 'active' : '' ?>">
                           <i class="nav-icon fas fa-comments"></i>
                           <p>
                               Yorumlar
@@ -78,8 +80,13 @@
                       </a>
                   </li>
                   <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
-                  <li class="nav-item has-treeview menu-open">
-                      <a href="#" class="nav-link active">
+                  <li class="nav-item has-treeview 
+                  <?= $sideUri === 'ayarlar' ||
+                    $sideUri === 'iletisim' ||
+                    $sideUri === 'sosyalmedya' ||
+                    $sideUri === 'kullanicilar' ? 'menu-open' : '' ?>">
+                      <a href="#"
+                          class="nav-link <?= $sideUri === 'ayarlar' || $sideUri === 'iletisim' || $sideUri === 'sosyalmedya' || $sideUri === 'kullanicilar' ? 'active' : '' ?>">
                           <i class="nav-icon fas fa-cog"></i>
                           <p>
                               Ayarlar
@@ -87,7 +94,6 @@
                           </p>
                       </a>
                       <ul class="nav nav-treeview">
-                          <?php $sideUri = explode('.', explode('/', $_SERVER['REQUEST_URI'])[3])[0]; ?>
                           <li class="nav-item">
                               <a href="ayarlar" class="nav-link <?= $sideUri === 'ayarlar' ? 'active' : '' ?>">
                                   <i class="fab fa-chrome nav-icon"></i>
@@ -124,6 +130,13 @@
               </ul>
           </nav>
           <!-- /.sidebar-menu -->
+
+
+
+
+
+
+
 
 
 

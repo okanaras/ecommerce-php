@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once 'header.php';
 require_once 'sidebar.php';
 
@@ -16,21 +17,22 @@ require_once 'sidebar.php';
                         <h3 class="card-title">Genel Ayarlar</h3>
                     </div>
                     <!-- /.card-header -->
-                    <?php
-          if (isset($_GET["success"]) == "1") { ?>
-                    <div class="alert alert-success mt-2 w-25" role="alert">
-                        İşlem başarılı.
-                    </div>
-                    <?php
-          } else if (isset($_GET["error"]) == "1") {
-          ?>
-                    <div class="alert alert-danger mt-2 w-25" role="alert">
-                        İşlem başarısız.
-                    </div>
-                    <?php } ?>
                     <!-- form start -->
                     <form action="islem/islem.php" method="POST">
                         <div class="card-body">
+                            <div class="form-group">
+                                <?php if (isset($_SESSION["ayarlar_store_success_message"])) { ?>
+                                <div class="alert alert-success mt-2 w-50" role="alert">
+                                    <?php echo $_SESSION['ayarlar_store_success_message'];
+                    unset($_SESSION['ayarlar_store_success_message']); ?>
+                                </div>
+                                <?php } else if (isset($_SESSION["ayarlar_store_error_message"])) { ?>
+                                <div class="alert alert-danger mt-2 w-50" role="alert">
+                                    <?php echo $_SESSION['ayarlar_store_error_message'];
+                    unset($_SESSION['ayarlar_store_error_message']); ?>
+                                </div>
+                                <?php } ?>
+                            </div>
                             <div class="form-group">
                                 <label for="baslik">Başlık</label>
                                 <input type="text" class="form-control"
@@ -96,6 +98,15 @@ require_once 'sidebar.php';
             <!-- /.card -->
         </div>
 </div>
+
+
+
+
+
+
+
+
+
 
 
 
