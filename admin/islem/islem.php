@@ -232,3 +232,22 @@ if (isset($_POST["uyeler_kaydet"])) {
     }
   }
 }
+
+if (isset($_GET['delete_user'])) {
+  $userId = $_GET['id'];
+
+  $sql = "DELETE FROM  kullanici WHERE id=:id";
+  $stmt = $baglanti->prepare($sql);
+
+  $delete = $stmt->execute([
+    ":id" => $userId
+  ]);
+
+  if ($delete) {
+    $_SESSION["uyeler_delete_success_message"] = "Kayıt başarıyla silindi.";
+    Header('Location: ../uyeler');
+  } else {
+    $_SESSION["uyeler_delete_error_message"] = "İşlem başarısız. Bir hata oluştu.";
+    Header('Location: ../uyeler');
+  }
+}
