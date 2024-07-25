@@ -88,3 +88,33 @@ if (isset($_POST["sosyalMedyaKaydet"])) {
     Header('Location: ../sosyalmedya.php?error=1');
   }
 }
+
+if (isset($_POST["logoKaydet"])) {
+  $logo = $_FILES["logo"];
+
+  $uploads_dir = "../images/logo";
+  @$tmp_name = $logo["tmp_name"];
+  @$name = pathinfo($logo['name'], PATHINFO_FILENAME);
+  $now = date('Ymd-His'); // Yıl-ay-gün saat:dakika:saniye
+  @$ext = pathinfo($logo['name'], PATHINFO_EXTENSION);
+
+  $imagePath = "{$name}_{$now}.{$ext}";
+  @move_uploaded_file($tmp_name, "$uploads_dir/$imagePath");
+
+  $sql = "UPDATE ayarlar SET logo=:logo WHERE id=1 ";
+  $stmt = $baglanti->prepare($sql);
+
+  $update = $stmt->execute([
+    ":logo" => $imagePath
+  ]);
+
+
+  if ($update) {
+    $deleteLogo = $_POST['eski_logo'];
+    unlink("../images/logo/$deleteLogo");
+
+    Header('Location: ../ayarlar.php?success=1');
+  } else {
+    Header('Location: ../ayarlar.php?error=1');
+  }
+}

@@ -1,5 +1,5 @@
 <!-- Begin Footer Area -->
-<div class="footer">
+<div class="footer bg-dark">
     <!-- Begin Footer Static Top Area -->
     <div class="footer-static-top">
         <div class="container">
@@ -13,7 +13,7 @@
                                 <img src="images/shipping-icon/1.png" alt="Shipping Icon">
                             </div>
                             <div class="shipping-text">
-                                <h2>Free Delivery</h2>
+                                <h2 class="text-white">Ücretsiz Kargo</h2>
                                 <p>And free returns. See checkout for delivery dates.</p>
                             </div>
                         </div>
@@ -80,16 +80,16 @@
                         </div>
                         <ul class="des">
                             <li>
-                                <span>Address: </span>
-                                6688Princess Road, London, Greater London BAS 23JK, UK
+                                <span>Adres: </span>
+                                <?= $ayarCek['adres'] ?>
                             </li>
                             <li>
-                                <span>Phone: </span>
-                                <a href="#">(+123) 123 321 345</a>
+                                <span>Telefon: </span>
+                                <a href="tel://<?= $ayarCek['telefon'] ?>"><?= $ayarCek['telefon'] ?></a>
                             </li>
                             <li>
                                 <span>Email: </span>
-                                <a href="mailto://info@yourdomain.com">info@yourdomain.com</a>
+                                <a href="mailto://<?= $ayarCek['email'] ?>"><?= $ayarCek['email'] ?></a>
                             </li>
                         </ul>
                     </div>
@@ -123,39 +123,28 @@
                     <!-- Begin Footer Block Area -->
                     <div class="col-lg-4">
                         <div class="footer-block">
-                            <h3 class="footer-block-title">Follow Us</h3>
+                            <h3 class="footer-block-title">Bizi Takip Edin!</h3>
                             <ul class="social-link">
                                 <li class="twitter">
-                                    <a href="https://twitter.com/" data-toggle="tooltip" target="_blank"
+                                    <a href="<?= $ayarCek['twitter'] ?>" data-toggle="tooltip" target="_blank"
                                         title="Twitter">
                                         <i class="fa fa-twitter"></i>
                                     </a>
                                 </li>
-                                <li class="rss">
-                                    <a href="https://rss.com/" data-toggle="tooltip" target="_blank" title="RSS">
-                                        <i class="fa fa-rss"></i>
-                                    </a>
-                                </li>
-                                <li class="google-plus">
-                                    <a href="https://www.plus.google.com/discover" data-toggle="tooltip" target="_blank"
-                                        title="Google Plus">
-                                        <i class="fa fa-google-plus"></i>
-                                    </a>
-                                </li>
                                 <li class="facebook">
-                                    <a href="https://www.facebook.com/" data-toggle="tooltip" target="_blank"
+                                    <a href="<?= $ayarCek['facebook'] ?>" data-toggle="tooltip" target="_blank"
                                         title="Facebook">
                                         <i class="fa fa-facebook"></i>
                                     </a>
                                 </li>
                                 <li class="youtube">
-                                    <a href="https://www.youtube.com/" data-toggle="tooltip" target="_blank"
+                                    <a href="<?= $ayarCek['youtube'] ?>" data-toggle="tooltip" target="_blank"
                                         title="Youtube">
                                         <i class="fa fa-youtube"></i>
                                     </a>
                                 </li>
                                 <li class="instagram">
-                                    <a href="https://www.instagram.com/" data-toggle="tooltip" target="_blank"
+                                    <a href="<?= $ayarCek['instagram'] ?>" data-toggle="tooltip" target="_blank"
                                         title="Instagram">
                                         <i class="fa fa-instagram"></i>
                                     </a>
