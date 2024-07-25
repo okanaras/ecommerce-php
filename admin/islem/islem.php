@@ -19,10 +19,10 @@ if (isset($_POST["ayarKaydet"])) {
 
   if ($update) {
     $_SESSION["ayarlar_store_success_message"] = "İşlem başarılı.";
-    Header('Location: ../ayarlar.php');
+    Header('Location: ../ayarlar');
   } else {
     $_SESSION["ayarlar_store_error_message"] = "İşlem başarısız.";
-    Header('Location: ../ayarlar.php');
+    Header('Location: ../ayarlar');
   }
 }
 
@@ -46,20 +46,17 @@ if (isset($_POST["logoKaydet"])) {
     ":logo" => $imagePath
   ]);
 
-
   if ($update) {
     $deleteLogo = $_POST['eski_logo'];
     unlink("../images/logo/$deleteLogo");
 
     $_SESSION["ayarlar_store_success_message"] = "İşlem başarılı.";
-    Header('Location: ../ayarlar.php');
+    Header('Location: ../ayarlar');
   } else {
     $_SESSION["ayarlar_store_error_message"] = "İşlem başarısız.";
-    Header('Location: ../ayarlar.php');
+    Header('Location: ../ayarlar');
   }
 }
-
-
 
 if (isset($_POST["iletisimKaydet"])) {
   $telefon = $_POST["telefon"];
@@ -79,10 +76,10 @@ if (isset($_POST["iletisimKaydet"])) {
 
   if ($update) {
     $_SESSION["iletisim_store_success_message"] = "İşlem başarılı.";
-    Header('Location: ../iletisim.php');
+    Header('Location: ../iletisim');
   } else {
     $_SESSION["iletisim_store_error_message"] = "İşlem başarısız.";
-    Header('Location: ../iletisim.php');
+    Header('Location: ../iletisim');
   }
 }
 
@@ -104,10 +101,10 @@ if (isset($_POST["sosyalMedyaKaydet"])) {
 
   if ($update) {
     $_SESSION["sosyalmedya_store_success_message"] = "İşlem başarılı.";
-    Header('Location: ../sosyalmedya.php');
+    Header('Location: ../sosyalmedya');
   } else {
     $_SESSION["sosyalmedya_store_error_message"] = "İşlem başarısız.";
-    Header('Location: ../sosyalmedya.php');
+    Header('Location: ../sosyalmedya');
   }
 }
 
@@ -149,16 +146,17 @@ if (isset($_POST["hakkimizdaKaydet"])) {
       ":vizyon" => $vizyon
     ]);
   }
+
   if ($update) {
     if ($resim && $resim['size'] > 0) {
       $oldImage = $_POST['eski_resim'];
       unlink("../images/hakkimizda/$oldImage");
     }
     $_SESSION["hakkimizda_store_success_message"] = "İşlem başarılı.";
-    Header('Location: ../hakkimizda.php');
+    Header('Location: ../hakkimizda');
   } else {
     $_SESSION["hakkimizda_store_error_message"] = "İşlem başarısız.";
-    Header('Location: ../hakkimizda.php');
+    Header('Location: ../hakkimizda');
   }
 }
 
@@ -175,11 +173,62 @@ if (isset($_POST["giris_yap"])) {
   ]);
 
   $checkUser = $stmt->rowCount();
+
   if ($checkUser) {
-    $_SESSION['girisbelgesi'] = $k_adi;
+    $_SESSION['loggedUser'] = $k_adi;
     Header("Location:../index");
   } else {
     $_SESSION["login_error_message"] = "Kullanıcı adı veya şifre hatalı.";
     Header("Location:../login");
+  }
+}
+
+if (isset($_POST["uyeler_kaydet"])) {
+  $k_adi = htmlspecialchars($_POST["k_adi"]);
+  $sifre = hash('SHA512', htmlspecialchars($_POST["sifre"]));
+  $ad_soyad = htmlspecialchars($_POST["ad_soyad"]);
+  $resim = $_FILES['resim'];
+
+
+  $sql = "SELECT * FROM kullanici WHERE kullanici_adi=:k_adi";
+  $stmt = $baglanti->prepare($sql);
+  $stmt->execute([
+    ":k_adi" => $k_adi
+  ]);
+
+  $checkUser = $stmt->rowCount();
+
+  if ($checkUser) {
+    $_SESSION["uyeler-ekle_store_info_message"] = "Bu kullanıcı sistemde mevcuttur.";
+    Header('Location: ../uyeler-ekle');
+  } else {
+    $uploads_dir = "../images/kullanici/";
+    @$tmp_name = $resim["tmp_name"];
+    @$name = pathinfo($resim['name'], PATHINFO_FILENAME);
+    $now = date('Ymd-His'); // Yıl-ay-gün saat:dakika:saniye
+    @$ext = pathinfo($resim['name'], PATHINFO_EXTENSION);
+
+    $imagePath = "{$name}_{$now}.{$ext}";
+    @move_uploaded_file($tmp_name, "$uploads_dir/$imagePath");
+
+    $sql = "INSERT INTO kullanici SET kullanici_adi=:k_adi, sifre=:sifre, ad_soyad=:ad_soyad, yetki=:yetki, resim=:resim";
+    $stmt = $baglanti->prepare($sql);
+
+    $insert = $stmt->execute([
+      ":k_adi" => $k_adi,
+      ":sifre" => $sifre,
+      ":ad_soyad" => $ad_soyad,
+      ":yetki" => 1,
+      ":resim" => $imagePath
+    ]);
+
+    if ($insert) {
+
+      $_SESSION["uyeler-ekle_store_success_message"] = "İşlem başarılı.";
+      Header('Location: ../uyeler-ekle');
+    } else {
+      $_SESSION["uyeler-ekle_store_error_message"] = "İşlem başarısız.";
+      Header('Location: ../uyeler-ekle');
+    }
   }
 }

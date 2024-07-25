@@ -38,6 +38,16 @@ session_start();
                     <?php echo $_SESSION['login_error_message'];
             unset($_SESSION['login_error_message']); ?>
                 </div>
+                <?php } else if (isset($_SESSION["admin_permisson_message"])) { ?>
+                <div class="alert alert-warning" role="alert">
+                    <?php echo $_SESSION['admin_permisson_message'];
+            unset($_SESSION['admin_permisson_message']); ?>
+                </div>
+                <?php } else if (isset($_SESSION["logout_message"])) { ?>
+                <div class="alert alert-primary" role="alert">
+                    <?php echo $_SESSION['logout_message'];
+            unset($_SESSION['logout_message']); ?>
+                </div>
                 <?php } else {
             echo "Lütfen giriş bilgilerinizi giriniz.";
           }

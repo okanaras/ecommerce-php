@@ -1,5 +1,21 @@
 <?php
+session_start();
+
 require_once 'islem/baglanti.php';
+
+$sql = "SELECT * FROM kullanici WHERE kullanici_adi=:k_adi";
+$stmt = $baglanti->prepare($sql);
+$stmt->execute([
+  ":k_adi" => $_SESSION['loggedUser']
+]);
+
+$checkUser = $stmt->rowCount();
+
+if ($checkUser == 0) {
+  $_SESSION['admin_permisson_message'] = 'Lütfen giriş yapınız.';
+  header('Location:./login');
+}
+
 
 $ayar = $baglanti->prepare("SELECT * FROM ayarlar WHERE id=?");
 $ayar->execute([1]);
@@ -18,7 +34,7 @@ $hakkimizdaCek = $hakkimizda->fetch(PDO::FETCH_ASSOC);
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>AdminLTE 3 | Dashboard</title>
+    <title>Yazılım Yolcusu</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Font Awesome -->
@@ -167,6 +183,19 @@ $hakkimizdaCek = $hakkimizda->fetch(PDO::FETCH_ASSOC);
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
+
+
+
+
+
+
+
+
+
+
+
+
+
                      
    <i class="fas fa-th-large"></i>
                     </a>

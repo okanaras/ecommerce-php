@@ -81,10 +81,10 @@
                   </li>
                   <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
                   <li class="nav-item has-treeview 
-                  <?= $sideUri === 'ayarlar' ||
-                    $sideUri === 'iletisim' ||
-                    $sideUri === 'sosyalmedya' ||
-                    $sideUri === 'kullanicilar' ? 'menu-open' : '' ?>">
+                    <?= $sideUri === 'ayarlar' ||
+                      $sideUri === 'iletisim' ||
+                      $sideUri === 'sosyalmedya' ||
+                      $sideUri === 'kullanicilar' ? 'menu-open' : '' ?>">
                       <a href="#"
                           class="nav-link <?= $sideUri === 'ayarlar' || $sideUri === 'iletisim' || $sideUri === 'sosyalmedya' || $sideUri === 'kullanicilar' ? 'active' : '' ?>">
                           <i class="nav-icon fas fa-cog"></i>
@@ -119,17 +119,29 @@
                                   <p>Kullanıcı Bilgileri</p>
                               </a>
                           </li>
-                          <li class="nav-item">
-                              <a href="./index3.html" class="nav-link">
-                                  <i class="fa fa-bookmark nav-icon"></i>
-                                  <p>Tema Bilgileri</p>
-                              </a>
-                          </li>
                       </ul>
+                  </li>
+                  <li class="nav-item">
+                      <a href="./index3.html" class="nav-link">
+                          <i class="fa fa-bookmark nav-icon"></i>
+                          <p>Tema Bilgileri</p>
+                      </a>
+                  </li>
+                  <li class="nav-item">
+                      <a href="cikis" class="nav-link">
+                          <i class="fas fa-sign-out-alt nav-icon"></i>
+                          <p>Çıkış</p>
+                      </a>
                   </li>
               </ul>
           </nav>
           <!-- /.sidebar-menu -->
+
+
+
+
+
+
 
 
 
