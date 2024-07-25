@@ -118,3 +118,52 @@ if (isset($_POST["logoKaydet"])) {
     Header('Location: ../ayarlar.php?error=1');
   }
 }
+
+if (isset($_POST["hakkimizdaKaydet"])) {
+  $baslik = $_POST["baslik"];
+  $detay = $_POST["detay"];
+  $misyon = $_POST["misyon"];
+  $vizyon = $_POST["vizyon"];
+  $resim = $_FILES["resim"];
+
+  if ($resim && $resim['size'] > 0) {
+    $uploads_dir = "../images/hakkimizda";
+    @$tmp_name = $resim["tmp_name"];
+    @$name = pathinfo($resim['name'], PATHINFO_FILENAME);
+    $now = date('Ymd-His'); // Yıl-ay-gün saat:dakika:saniye
+    @$ext = pathinfo($resim['name'], PATHINFO_EXTENSION);
+
+    $imagePath = "{$name}_{$now}.{$ext}";
+    @move_uploaded_file($tmp_name, "$uploads_dir/$imagePath");
+
+    $sql = "UPDATE hakkimizda SET baslik=:baslik, detay=:detay, misyon=:misyon, vizyon=:vizyon, resim=:resim WHERE id=1 ";
+    $stmt = $baglanti->prepare($sql);
+
+    $update = $stmt->execute([
+      ":baslik" => $baslik,
+      ":detay" => $detay,
+      ":misyon" => $misyon,
+      ":vizyon" => $vizyon,
+      ":resim" => $imagePath
+    ]);
+  } else {
+    $sql = "UPDATE hakkimizda SET baslik=:baslik, detay=:detay, misyon=:misyon, vizyon=:vizyon WHERE id=1 ";
+    $stmt = $baglanti->prepare($sql);
+
+    $update = $stmt->execute([
+      ":baslik" => $baslik,
+      ":detay" => $detay,
+      ":misyon" => $misyon,
+      ":vizyon" => $vizyon
+    ]);
+  }
+  if ($update) {
+    if ($resim && $resim['size'] > 0) {
+      $oldImage = $_POST['eski_resim'];
+      unlink("../images/hakkimizda/$oldImage");
+    }
+    Header('Location: ../hakkimizda.php?success=1');
+  } else {
+    Header('Location: ../hakkimizda.php?error=1');
+  }
+}

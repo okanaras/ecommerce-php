@@ -1,14 +1,14 @@
 <footer class="main-footer">
-  <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
-  All rights reserved.
-  <div class="float-right d-none d-sm-inline-block">
-    <b>Version</b> 3.0.5
-  </div>
+    <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
+    All rights reserved.
+    <div class="float-right d-none d-sm-inline-block">
+        <b>Version</b> 3.0.5
+    </div>
 </footer>
 
 <!-- Control Sidebar -->
 <aside class="control-sidebar control-sidebar-dark">
-  <!-- Control sidebar content goes here -->
+    <!-- Control sidebar content goes here -->
 </aside>
 <!-- /.control-sidebar -->
 </div>
@@ -20,7 +20,7 @@
 <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
-  $.widget.bridge('uibutton', $.ui.button)
+$.widget.bridge('uibutton', $.ui.button)
 </script>
 <!-- Bootstrap 4 -->
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -48,6 +48,10 @@
 <script src="dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="dist/js/demo.js"></script>
+
+<!-- CKEditor -->
+<script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+
 </body>
 
 </html>
