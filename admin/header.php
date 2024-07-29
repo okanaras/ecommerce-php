@@ -55,6 +55,10 @@ $hakkimizdaCek = $hakkimizda->fetch(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="plugins/summernote/summernote-bs4.css">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    <!-- BENIM EKLEDIGIM CSSLER -->
+    <link rel="stylesheet" href="../public/assets/sweetalert2/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="../public/assets/toastr/build/toastr.min.css">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -180,23 +184,8 @@ $hakkimizdaCek = $hakkimizda->fetch(PDO::FETCH_ASSOC);
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                     
-   <i class="fas fa-th-large"></i>
+                    <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">               
+                      <i class="fas fa-th-large"></i>
                     </a>
                 </li>
             </ul>

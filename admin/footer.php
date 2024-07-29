@@ -1,5 +1,5 @@
 <footer class="main-footer">
-    <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
+    <strong>Copyright &copy; <?= '2021 - ' . date('Y') ?> <a href="https://www.okanaras.com">okanaras</a>.</strong>
     All rights reserved.
     <div class="float-right d-none d-sm-inline-block">
         <b>Version</b> 3.0.5
@@ -49,8 +49,10 @@ $.widget.bridge('uibutton', $.ui.button)
 <!-- AdminLTE for demo purposes -->
 <script src="dist/js/demo.js"></script>
 
-<!-- CKEditor -->
+<!-- BENIM EKLEDIGIM SCRIPTLER -->
 <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+<script src="../public/assets/sweetalert2/dist/sweetalert2.all.min.js"></script>
+<script src="../public/assets/toastr/build/toastr.min.js"></script>
 
 </body>
 

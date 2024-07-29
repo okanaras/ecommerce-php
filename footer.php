@@ -394,6 +394,10 @@
 <script src="js/scrollUp.min.js"></script>
 <!-- Main/Activator js -->
 <script src="js/main.js"></script>
+
+<!-- BENIM EKLEDIGIM SCRIPTLER -->
+<script src="public/assets/sweetalert2/dist/sweetalert2.all.min.js"></script>
+<script src="public/assets/toastr/build/toastr.min.js"></script>
 </body>
 
 <!-- index30:23-->

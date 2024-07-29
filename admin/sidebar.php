@@ -35,7 +35,7 @@
                       </a>
                   </li>
                   <li class="nav-item">
-                      <a href="kategori" class="nav-link <?= $sideUri === 'kategori' ? 'active' : '' ?>">
+                      <a href="kategori" class="nav-link <?= $sideUri === 'kategori' || $sideUri === 'kategori-ekle' ? 'active' : '' ?>">
                           <i class="nav-icon fas fa-bars"></i>
                           <p>
                               Kategoriler

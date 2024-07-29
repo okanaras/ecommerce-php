@@ -73,7 +73,8 @@
                                           <td><?= $uye['id']   ?? '-' ?></td>
                                           <td><?= $uye['kullanici_adi']   ?? '-' ?></td>
                                           <td><?= $uye['ad_soyad']  ?? '-' ?></td>
-                                          <td><?= $uye['yetki'] == 1 ? 'Admin' : 'Uye' ?></td>
+                                          <td><?= $uye['yetki'] == 1 ? "<a class='btn btn-success'>Admin</a>" : "<a class='btn btn-danger'>Üye</a>" ?>
+                                          </td>
                                           <td><?= $uye['created_at'] ?></td>
                                           <td><?= $uye['adres']  ?? '-' ?></td>
                                           <td><?= $uye['il']   ?? '-' ?></td>

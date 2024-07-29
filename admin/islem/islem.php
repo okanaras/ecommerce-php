@@ -3,6 +3,11 @@ session_start();
 
 require_once 'baglanti.php';
 
+if (isset($_POST)) {
+  $input4JsonReq = file_get_contents('php://input');
+  $data4JsonReq = json_decode($input4JsonReq, true);
+}
+
 if (isset($_POST["ayarKaydet"])) {
   $baslik = $_POST["baslik"];
   $aciklama = $_POST["aciklama"];
@@ -249,5 +254,133 @@ if (isset($_GET['delete_user'])) {
   } else {
     $_SESSION["uyeler_delete_error_message"] = "İşlem başarısız. Bir hata oluştu.";
     Header('Location: ../uyeler');
+  }
+}
+
+if (isset($_POST['kategori_kaydet'])) {
+  $ad = $_POST['ad'];
+  $sira = $_POST['sira'];
+  $durum = $_POST['durum'];
+
+  if ($durum == '-1') {
+    $durum = 0;
+  }
+
+
+  $sql = "INSERT INTO kategori SET ad=:ad, sira=:sira, durum=:durum";
+  $stmt = $baglanti->prepare($sql);
+
+  $insert = $stmt->execute([
+    ":ad" => $ad,
+    ":sira" => $sira,
+    ":durum" => $durum
+  ]);
+
+  if ($insert) {
+    $_SESSION["kategori-ekle_store_success_message"] = "Kategori başarıyla eklendi.";
+    Header('Location: ../kategori-ekle');
+  } else {
+    $_SESSION["kategori-ekle_store_error_message"] = "Kayıt işlemi başarısız.";
+    Header('Location: ../kategori-ekle');
+  }
+}
+
+if (isset($_GET['action']) && $_GET['action'] == 'getCategory' && isset($_GET['id'])) {
+  $id = $_GET['id'];
+
+  $sql = "SELECT * FROM kategori WHERE id =:id";
+  $stmt = $baglanti->prepare($sql);
+  $stmt->execute([":id" => $id]);
+  $categoryData = $stmt->fetch(PDO::FETCH_ASSOC);
+
+  header('Content-Type: application/json; charset=utf-8');
+  http_response_code(200);
+
+  $response = [
+    'message' => 'İşlem başarılı',
+    'category' => $categoryData
+  ];
+  echo json_encode($response, JSON_UNESCAPED_UNICODE);
+}
+
+
+if (isset($data4JsonReq['action']) && $data4JsonReq['action'] == 'changeCategoryStatus' && isset($data4JsonReq['id'])) {
+  $id = $data4JsonReq['id'];
+
+  // Mevcut durumu almak için sorgu
+  $statusSql = "SELECT durum FROM kategori WHERE id = :id";
+  $statusStmt = $baglanti->prepare($statusSql);
+  $statusStmt->execute([':id' => $id]);
+  $status = $statusStmt->fetch(PDO::FETCH_ASSOC);
+
+  if ($status) {
+    $currentStatus = $status['durum']; // 'durum' anahtarını kullanarak mevcut durumu alıyoruz
+    $newStatus = ($currentStatus == 1) ? 0 : 1; // Durum 1 ise 0, 0 ise 1 olacak
+  } else {
+    $newStatus = 0; // Eğer durum bulunamazsa varsayılan olarak 0
+  }
+
+  $sql = "UPDATE kategori SET durum = :durum WHERE id = :id";
+  $stmt = $baglanti->prepare($sql);
+  $stmt->execute([
+    ':durum' => $newStatus,
+    ':id' => $id
+  ]);
+
+  header('Content-Type: application/json; charset=utf-8');
+  http_response_code(200);
+
+  $response = [
+    'message' => 'İşlem başarılı',
+    'durum' => $newStatus
+  ];
+  echo json_encode($response, JSON_UNESCAPED_UNICODE);
+}
+
+
+if (isset($_POST['kategori_guncelle'])) {
+  $id = $_POST['id'];
+  $ad = $_POST['ad'];
+  $sira = $_POST['sira'];
+  $durum = $_POST['durum'];
+
+  $sql = "UPDATE kategori SET ad=:ad, sira=:sira, durum=:durum WHERE id=$id";
+  $stmt = $baglanti->prepare($sql);
+
+  $update = $stmt->execute([
+    ":ad" => $ad,
+    ":sira" => $sira,
+    ":durum" => $durum
+  ]);
+
+  if ($update) {
+    $_SESSION["kategori_update_success_message"] = "Kategori başarıyla güncellendi.";
+    header("Location:../kategori");
+  } else {
+    $_SESSION["kategori_update_error_message"] = "Kategori güncellenemedi!";
+    header("Location:../kategori");
+  }
+}
+
+if (isset($data4JsonReq['action']) && $data4JsonReq['action'] == 'deleteCategory' && isset($data4JsonReq['id'])) {
+  $id = $data4JsonReq['id'];
+
+  $sql = "DELETE FROM kategori WHERE id=:id";
+  $stmt = $baglanti->prepare($sql);
+
+  $delete = $stmt->execute([':id' => $id]);
+
+  if ($delete) {
+    header('Content-Type: application/json; charset=utf-8');
+    http_response_code(200);
+    
+    $response = [
+      'message' => 'İşlem başarılı',
+      'id' => $id
+    ];
+    echo json_encode($response, JSON_UNESCAPED_UNICODE);
+  } else {
+    $_SESSION["kategoriler_delete_error_message"] = "İşlem başarısız. Bir hata oluştu.";
+    Header('Location: ../kategoriler');
   }
 }
