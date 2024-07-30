@@ -63,7 +63,7 @@ require_once 'sidebar.php';
                                 <label>Resim:</label>
                                 <div>
                                     <img width="100" height="auto"
-                                        src="images/hakkimizda/<?= $hakkimizdaCek['resim'] ?>"
+                                        src="./public/assets/images/hakkimizda/<?= $hakkimizdaCek['resim'] ?>"
                                         alt="<?= isset($hakkimizdaCek['baslik']) ? htmlspecialchars($hakkimizdaCek['baslik']) : 'Resim' ?>">
                                 </div>
                             </div>

@@ -73,7 +73,7 @@ require_once 'sidebar.php';
                             <div class="form-group">
                                 <label for="aciklama">Logo:</label>
                                 <div>
-                                    <img width="100" height="auto" src="images/logo/<?= $ayarCek['logo'] ?>"
+                                    <img width="100" height="auto" src="./public/assets/images/logo/<?= $ayarCek['logo'] ?>"
                                         alt="<?= isset($ayarCek['baslik']) ? htmlspecialchars($ayarCek['baslik']) : 'Logo' ?>">
                                 </div>
                             </div>

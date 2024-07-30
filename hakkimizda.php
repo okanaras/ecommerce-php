@@ -34,7 +34,7 @@ require_once 'header.php';
             <!-- About Image Start -->
             <div class="col-lg-5 col-md-10">
                 <div class="about-image-wrap">
-                    <img class="img-full" src="./admin/images/hakkimizda/<?= $hakkimizdaCek['resim'] ?>"
+                    <img class="img-full" src="./admin/public/assets/images/hakkimizda/<?= $hakkimizdaCek['resim'] ?>"
                         alt="<?= $hakkimizdaCek['baslik'] ?>" />
                 </div>
             </div>

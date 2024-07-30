@@ -53,7 +53,7 @@
                       </a>
                   </li>
                   <li class="nav-item">
-                      <a href="slider" class="nav-link <?= $sideUri === 'slider' ? 'active' : '' ?>">
+                      <a href="slider" class="nav-link <?= $sideUri === 'slider' || $sideUri === 'slider-ekle' ? 'active' : '' ?>">
                           <i class="nav-icon fas fa-image"></i>
                           <p>
                               Slider
@@ -62,7 +62,7 @@
                       </a>
                   </li>
                   <li class="nav-item">
-                      <a href="uyeler" class="nav-link <?= $sideUri === 'uyeler' ? 'active' : '' ?>">
+                      <a href="uyeler" class="nav-link <?= $sideUri === 'uyeler' || $sideUri === 'uyeler-ekle'  ? 'active' : '' ?>">
                           <i class="nav-icon fas fa-users"></i>
                           <p>
                               Üyeler

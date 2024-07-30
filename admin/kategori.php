@@ -50,7 +50,7 @@
                   <?php } ?>
                 </div>
                 <a href="kategori-ekle" class="btn btn-success float-right mr-2">Kategori Ekle</a>
-                <table class="table table-hover text-nowrap kategori-tablosu">
+                <table class="table table-hover text-nowrap">
                   <thead>
                     <tr>
                       <th>#</th>
@@ -77,18 +77,17 @@
                         <td><?= $kategori['sira']  ?? '-' ?></td>
                         <td>
                           <?= $kategori['durum'] == 1
-                            ? "<a class='btn btn-success btn-change-status' data-id='{$kategori['id']}'><span class='text-white btn-change-status' data-id='{$kategori['id']}'>Aktif</span></a>"
-                            : "<a class='btn btn-danger btn-change-status' data-id='{$kategori['id']}'><span class='text-white btn-change-status' data-id='{$kategori['id']}'>Pasif</span></a>"
+                            ? "<a class='btn btn-success btn-change-status text-white' data-id='{$kategori['id']}'>Aktif</a>"
+                            : "<a class='btn btn-danger btn-change-status text-white' data-id='{$kategori['id']}'>Pasif</a>"
                           ?>
                         </td>
 
                         <td>
-                          <a href="javascript:void(0)" class="btn btn-danger btn-delete" data-id="<?= $kategori['id'] ?>">
-                            <i class="fa fa-trash btn-delete" data-id="<?= $kategori['id'] ?>"></i>
-                          </a>
-
                           <a href="javascript:void(0)" data-id="<?= $kategori['id'] ?>" class="btn btn-success btn-edit">
                             <i class="fa fa-pen btn-edit" data-id="<?= $kategori['id'] ?>"></i>
+                          </a>
+                          <a href="javascript:void(0)" class="btn btn-danger btn-delete" data-id="<?= $kategori['id'] ?>">
+                            <i class="fa fa-trash btn-delete" data-id="<?= $kategori['id'] ?>"></i>
                           </a>
                         </td>
                       </tr>
@@ -113,7 +112,7 @@
 
 
   <!-- Modal -->
-  <div class=" modal fade" id="kategoriModal" tabindex="-1" role="dialog" aria-labelledby="kategoriModalLabel" aria-hidden="true">
+  <div class="modal fade" id="kategoriModal" tabindex="-1" role="dialog" aria-labelledby="kategoriModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <form action="islem/islem.php" method="POST" enctype="multipart/form-data" id="kategoriGuncelleme">
@@ -156,7 +155,7 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      document.querySelector('.table').addEventListener('click', function(event) {
+      document.querySelector('.table').addEventListener('click', (event) => {
         let element = event.target;
 
         if (element.classList.contains('btn-edit')) {
@@ -199,10 +198,6 @@
                 'action': 'changeCategoryStatus'
               };
 
-              if (element.tagName === "SPAN") {
-                element = element.parentElement;
-              }
-
               fetch('islem/islem.php', {
                 method: 'PUT',
                 headers: {
@@ -216,11 +211,11 @@
                 return response.json();
               }).then(data => {
                 if (data.durum) {
-                  element.classList.add("btn-success");
-                  element.classList.remove('btn-danger');
+                  element.classList.add("btn-success", "text-white");
+                  element.classList.remove("btn-danger");
                 } else {
                   element.classList.remove("btn-success");
-                  element.classList.add('btn-danger');
+                  element.classList.add("btn-danger", "text-white");
                 }
 
                 toastr.success('İşlem tamamlandı!', 'Başarılı');
@@ -268,7 +263,7 @@
               }).then(data => {
                 let row = document.querySelector(`#row-${data.id}`);
                 row.remove();
-                
+
                 toastr.success('İşlem tamamlandı!', 'Başarılı');
               }).catch(error => {
                 console.error('Bir hata oluştu:', error);

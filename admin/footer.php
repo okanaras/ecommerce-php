@@ -1,14 +1,14 @@
 <footer class="main-footer">
-    <strong>Copyright &copy; <?= '2021 - ' . date('Y') ?> <a href="https://www.okanaras.com">okanaras</a>.</strong>
-    All rights reserved.
-    <div class="float-right d-none d-sm-inline-block">
-        <b>Version</b> 3.0.5
-    </div>
+  <strong>Copyright &copy; <?= '2021 - ' . date('Y') ?> <a href="https://www.okanaras.com">okanaras</a>.</strong>
+  All rights reserved.
+  <div class="float-right d-none d-sm-inline-block">
+    <b>Version</b> 3.0.5
+  </div>
 </footer>
 
 <!-- Control Sidebar -->
 <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
+  <!-- Control sidebar content goes here -->
 </aside>
 <!-- /.control-sidebar -->
 </div>
@@ -20,7 +20,7 @@
 <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
-$.widget.bridge('uibutton', $.ui.button)
+  $.widget.bridge('uibutton', $.ui.button)
 </script>
 <!-- Bootstrap 4 -->
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -53,6 +53,12 @@ $.widget.bridge('uibutton', $.ui.button)
 <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
 <script src="../public/assets/sweetalert2/dist/sweetalert2.all.min.js"></script>
 <script src="../public/assets/toastr/build/toastr.min.js"></script>
+
+
+<script>
+  const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+  const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+</script>
 
 </body>
 
