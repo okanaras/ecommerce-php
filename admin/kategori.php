@@ -63,7 +63,7 @@
                   </thead>
                   <tbody>
                     <?php
-                    $kategoriler = $baglanti->prepare("SELECT * FROM kategori order by id DESC");
+                    $kategoriler = $baglanti->prepare("SELECT * FROM kategori ORDER BY sira DESC");
                     $kategoriler->execute();
                     $kategorilerCek = $kategoriler->fetchAll(PDO::FETCH_ASSOC);
                     $index = 1;

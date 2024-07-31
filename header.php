@@ -1,6 +1,7 @@
 <?php
 session_start();
-require_once 'admin/islem/baglanti.php';
+require_once './admin/Database/baglanti.php';
+require_once './admin/app/Helpers/Helpers.php';
 
 $ayar = $baglanti->prepare("SELECT * FROM ayarlar WHERE id=?");
 $ayar->execute([1]);
@@ -177,17 +178,19 @@ $hakkimizdaCek = $hakkimizda->fetch(PDO::FETCH_ASSOC);
                                         <li class="megamenu-holder"><a href="shop-left-sidebar.html">Kategoriler</a>
                                             <ul class="megamenu hb-megamenu">
                                                 <li>
-                                                    <a href="shop-left-sidebar.html">BURASI KATEGORI ADI OLABILIR (ERKEK KADIN)</a>
+                                                    <a href="">BURASI KATEGORI ADI OLABILIR (ERKEK KADIN)</a>
                                                     <ul>
                                                         <?php
-                                                        $kategoriler = $baglanti->prepare("SELECT * FROM kategori WHERE sira BETWEEN 1 AND 10 LIMIT 8");
-                                                        $kategoriler->execute();
+                                                        $kategoriler = $baglanti->prepare("SELECT * FROM kategori WHERE durum=:durum AND sira BETWEEN 1 AND 10 LIMIT 8");
+                                                        $kategoriler->execute([
+                                                            ":durum" => 1
+                                                        ]);
                                                         $kategorilerCek = $kategoriler->fetchAll(PDO::FETCH_ASSOC);
                                                         $index = 1;
 
                                                         foreach ($kategorilerCek as $kategori) {
                                                         ?>
-                                                            <li><a href="shop-3-column.html"><?= $kategori['ad'] ?></a></li>
+                                                            <li><a href="urunler-<?= convertToSeoLink($kategori['ad']) . '-' . $kategori['id'] ?>"><?= $kategori['ad'] ?></a></li>
                                                         <?php } ?>
                                                     </ul>
                                                 </li>
@@ -195,41 +198,45 @@ $hakkimizdaCek = $hakkimizda->fetch(PDO::FETCH_ASSOC);
                                                     <a href="single-product-gallery-left.html">CAT TITLE</a>
                                                     <ul>
                                                         <?php
-                                                        $kategoriler = $baglanti->prepare("SELECT * FROM kategori WHERE sira BETWEEN 10 AND 20 LIMIT 8");
-                                                        $kategoriler->execute();
+                                                        $kategoriler = $baglanti->prepare("SELECT * FROM kategori WHERE durum=:durum AND sira BETWEEN 10 AND 20 LIMIT 8");
+                                                        $kategoriler->execute([
+                                                            ":durum" => 1
+                                                        ]);
                                                         $kategorilerCek = $kategoriler->fetchAll(PDO::FETCH_ASSOC);
                                                         $index = 1;
 
                                                         foreach ($kategorilerCek as $kategori) {
                                                         ?>
                                                             <li>
-                                                                <a href="single-product-carousel.html"><?= $kategori['ad'] ?></a>
+                                                                <a href="urunler-<?= convertToSeoLink($kategori['ad']) . '-' . $kategori['id'] ?>"><?= $kategori['ad'] ?></a>
                                                             </li>
                                                         <?php } ?>
                                                     </ul>
                                                 </li>
                                                 <li>
                                                     <a href="single-product.html">CAT TITLE 2</a>
-                                                <ul>
-                                                    <?php
-                                                    $kategoriler = $baglanti->prepare("SELECT * FROM kategori WHERE sira BETWEEN 10 AND 20 LIMIT 8");
-                                                    $kategoriler->execute();
-                                                    $kategorilerCek = $kategoriler->fetchAll(PDO::FETCH_ASSOC);
-                                                    $index = 1;
+                                                    <ul>
+                                                        <?php
+                                                        $kategoriler = $baglanti->prepare("SELECT * FROM kategori WHERE durum=:durum AND sira BETWEEN 20 AND 30 LIMIT 8");
+                                                        $kategoriler->execute([
+                                                            ":durum" => 1
+                                                        ]);
+                                                        $kategorilerCek = $kategoriler->fetchAll(PDO::FETCH_ASSOC);
+                                                        $index = 1;
 
-                                                    foreach ($kategorilerCek as $kategori) {
-                                                    ?>
-                                                        <li>
-                                                            <a href="single-product.html"><?= $kategori['ad'] ?></a>
-                                                        </li>
-                                                    <?php } ?>
-                                                </ul>
+                                                        foreach ($kategorilerCek as $kategori) {
+                                                        ?>
+                                                            <li>
+                                                                <a href="urunler-<?= convertToSeoLink($kategori['ad']) . '-' . $kategori['id'] ?>"><?= $kategori['ad'] ?></a>
+                                                            </li>
+                                                        <?php } ?>
+                                                    </ul>
+                                                </li>
+                                            </ul>
                                         </li>
-                                    </ul>
-                                    </li>
-                                    <li><a href="about-us.html">Hakkımızda</a></li>
-                                    <li><a href="contact.html">Kargo Bilgileri</a></li>
-                                    <li><a href="shop-left-sidebar.html">İletişim</a></li>
+                                        <li><a href="about-us.html">Hakkımızda</a></li>
+                                        <li><a href="contact.html">Kargo Bilgileri</a></li>
+                                        <li><a href="shop-left-sidebar.html">İletişim</a></li>
                                     </ul>
                                 </nav>
                             </div>
