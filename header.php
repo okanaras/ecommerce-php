@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once 'admin/islem/baglanti.php';
 
 $ayar = $baglanti->prepare("SELECT * FROM ayarlar WHERE id=?");
