@@ -89,6 +89,9 @@
                           <a href="javascript:void(0)" class="btn btn-danger btn-delete" data-id="<?= $kategori['id'] ?>">
                             <i class="fa fa-trash btn-delete" data-id="<?= $kategori['id'] ?>"></i>
                           </a>
+                          <a href="urunler?kategoriId=<?= $kategori['id'] ?>" class="btn btn-info">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                          </a>
                         </td>
                       </tr>
                     <?php } ?>

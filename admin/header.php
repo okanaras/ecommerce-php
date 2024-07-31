@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require_once 'islem/baglanti.php';
+require_once './database/baglanti.php';
 
 $sql = "SELECT * FROM kullanici WHERE kullanici_adi=:k_adi AND yetki=:yetki";
 $stmt = $baglanti->prepare($sql);

@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require_once 'baglanti.php';
+require_once '../database/baglanti.php';
 
 if (isset($_POST)) {
   $input4JsonReq = file_get_contents('php://input');
