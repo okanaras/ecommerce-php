@@ -1,11 +1,18 @@
-<?php require_once 'header.php'; ?>
+<?php require_once 'header.php';
+
+if ($checkUser == 0) {
+    $_SESSION['normalUser_permisson_message'] = 'Lütfen giriş yapınız.';
+    header('Location:./login');
+}
+
+?>
 <!-- Begin Li's Breadcrumb Area -->
 <div class="breadcrumb-area">
     <div class="container">
         <div class="breadcrumb-content">
             <ul>
-                <li><a href="index.html">Anasayfa</a></li>
-                <li class="active">Login & Register</li>
+                <li><a href="index">Anasayfa</a></li>
+                <li class="active">Hesabım</li>
             </ul>
         </div>
     </div>
@@ -17,60 +24,71 @@
         <div class="row">
             <div class="col-sm-12 col-md-12 col-xs-12 col-lg-6 mb-30">
                 <!-- Login Form s-->
-                <form action="./admin/app/Http/Controllers/Front/AuthController.php" method="POST">
+                <form action="./admin/app/Http/Controllers/Front/UserController.php" method="POST">
                     <div class="login-form">
-                        <h4 class="login-title">Giriş Yap</h4>
+                        <h4 class="login-title">Kullanıcı Bilgileri <i class="fa fa-info-circle fa-lg text-info" data-bs-toggle="tooltip" data-bs-placement="top" title="Kullanıcı adı alanı değiştirilemez. (*) alanlar zorunludur."></i></h4>
                         <p class="login-box-msg">
-                            <?php if (isset($_SESSION["front_login_error_message"])) { ?>
+                            <?php if (isset($_SESSION["user_update_success_message"])) { ?>
+                        <div class="alert alert-success" role="alert">
+                            <?php
+                                echo $_SESSION['user_update_success_message'];
+                                unset($_SESSION['user_update_success_message']); ?>
+                        </div>
+                    <?php } else if (isset($_SESSION["user_update_error_message"])) { ?>
                         <div class="alert alert-danger" role="alert">
                             <?php
-                                echo $_SESSION['front_login_error_message'];
-                                unset($_SESSION['front_login_error_message']); ?>
-                        </div>
-                    <?php } else if (isset($_SESSION["normalUser_permisson_message"])) { ?>
-                        <div class="alert alert-info" role="alert">
-                            <?php
-                                echo $_SESSION['normalUser_permisson_message'];
-                                unset($_SESSION['normalUser_permisson_message']); ?>
-                        </div>
-                    <?php } else if (isset($_SESSION["logout_message"])) { ?>
-                        <div class="alert alert-primary" role="alert">
-                            <?php
-                                echo $_SESSION['logout_message'];
-                                unset($_SESSION['logout_message']); ?>
+                                echo $_SESSION['user_update_error_message'];
+                                unset($_SESSION['user_update_error_message']); ?>
                         </div>
                     <?php } else {
                                 echo "";
                             }
                     ?>
-                    </p>
                     <div class="row">
-                        <div class="col-md-12 col-12 mb-20">
-                            <label for="login_k_adi">Kullanıcı Adı*</label>
-                            <input class="mb-0" type="text" name="k_adi" id="login_k_adi" placeholder="Kullanıcı Adı" required>
+                        <input type="hidden" name="id" value="<?= $kullaniciCek['id'] ?>">
+                        <div class="col-sm-12 col-md-12 col-lg-6 col-xs-12 mb-20">
+                            <label>Kullanıcı Adı</label>
+                            <input class="mb-0" style="background-color: #dedede;" type="text" value="<?= $kullaniciCek['kullanici_adi'] ?>" disabled>
                         </div>
+                        <div class="col-sm-12 col-md-12 col-lg-6 col-xs-12 mb-20">
+                            <label for="ad_soyad">Ad Soyad <span class="text-danger">*</span></label>
+                            <input class="mb-0" type="text" value="<?= $kullaniciCek['ad_soyad'] ?>" name="ad_soyad" id="ad_soyad" placeholder="Ad Soyad">
+                        </div>
+
+                        <div class="col-sm-12 col-md-12 col-lg-6 col-xs-12 mb-20">
+                            <label for="tel">Telefon <span class="text-danger">*</span></label>
+                            <input class="mb-0" type="text" value="<?= $kullaniciCek['tel'] ?>" name="tel" id="tel" placeholder="Telefon">
+                        </div>
+
+                        <div class="col-sm-12 col-md-12 col-lg-6 col-xs-12 mb-20">
+                            <label for="email">Email <span class="text-danger">*</span></label>
+                            <input class="mb-0" type="email" value="<?= $kullaniciCek['email'] ?>" name="email" id="email" placeholder="Email">
+                        </div>
+
+                        <div class="col-sm-12 col-md-12 col-lg-6 col-xs-12 mb-20">
+                            <label for="il">İl <span class="text-danger">*</span></label>
+                            <input class="mb-0" type="text" value="<?= $kullaniciCek['il'] ?>" name="il" id="il" placeholder="İl">
+                        </div>
+
+                        <div class="col-sm-12 col-md-12 col-lg-6 col-xs-12 mb-20">
+                            <label for="ilce">İlçe <span class="text-danger">*</span></label>
+                            <input class="mb-0" type="text" value="<?= $kullaniciCek['ilce'] ?>" name="ilce" id="ilce" placeholder="İlçe">
+                        </div>
+
                         <div class="col-12 mb-20">
-                            <label for="login_pass">Parola</label>
-                            <input class="mb-0" type="password" name="sifre" id="login_pass" placeholder="Parola" required>
+                            <label for="adres">Adres <span class="text-danger">*</span></label>
+                            <input class="mb-0" type="text" value="<?= $kullaniciCek['adres'] ?>" name="adres" id="adres" placeholder="Adres">
                         </div>
-                        <div class="col-md-8">
-                            <div class="check-box d-inline-block ml-0 ml-md-2 mt-10">
-                                <input type="checkbox" id="remember_me">
-                                <label for="remember_me">Beni Hatırla</label>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mt-10 mb-20 text-left text-md-right">
-                            <a href="#">Şifrenizi mi unuttunuz?</a>
-                        </div>
-                        <div class="col-md-12">
-                            <button name="login" class="register-button mt-0">Giriş Yap</button>
+
+                        <div class="col-12">
+                            <button name="kullanici_duzenle" class="register-button mt-0">Kaydet</button>
                         </div>
                     </div>
                     </div>
                 </form>
             </div>
             <div class="col-sm-12 col-md-12 col-lg-6 col-xs-12">
-                <form action="./app/controllers/FrontAuthController.php" method="POST">
+                <form action="./admin/app/Http/Controllers/Front/UserController.php" method="POST">
                     <div class="login-form">
                         <h4 class="login-title">Kayıt Ol</h4>
                         <p class="login-box-msg">

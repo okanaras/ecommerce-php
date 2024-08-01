@@ -1,5 +1,6 @@
 <?php
 session_start();
+ob_start();
 require_once './admin/Database/baglanti.php';
 require_once './admin/app/Helpers/Helpers.php';
 
@@ -12,6 +13,17 @@ $hakkimizda = $baglanti->prepare("SELECT * FROM hakkimizda WHERE id=?");
 $hakkimizda->execute([1]);
 
 $hakkimizdaCek = $hakkimizda->fetch(PDO::FETCH_ASSOC);
+
+
+$sql = "SELECT * FROM kullanici WHERE kullanici_adi=:k_adi";
+$stmt = $baglanti->prepare($sql);
+$stmt->execute([
+    ":k_adi" => $_SESSION['normalUser']
+]);
+
+$kullaniciCek = $stmt->fetch(PDO::FETCH_ASSOC);
+// print_r($kullaniciCek);die;
+$checkUser = $stmt->rowCount();
 ?>
 
 <!doctype html>
@@ -94,19 +106,14 @@ $hakkimizdaCek = $hakkimizda->fetch(PDO::FETCH_ASSOC);
                                 <input type="text" placeholder="Enter your search key ...">
                                 <button class="li-btn" type="submit"><i class="fa fa-search"></i></button>
                             </form>
-                            <!-- Header Middle Searchbox Area End Here -->
-                            <!-- Begin Header Middle Right Area -->
                             <div class="header-middle-right">
                                 <ul class="hm-menu">
                                     <!-- Begin Header Middle Wishlist Area -->
                                     <li class="hm-wishlist">
-                                        <a href="wishlist.html">
-                                            <span class="cart-item-count wishlist-item-count">0</span>
-                                            <i class="fa fa-heart-o"></i>
+                                        <a href="kullanici">
+                                            <i class="fa fa-user-o"></i>
                                         </a>
                                     </li>
-                                    <!-- Header Middle Wishlist Area End Here -->
-                                    <!-- Begin Header Mini Cart Area -->
                                     <li class="hm-minicart">
                                         <div class="hm-minicart-trigger">
                                             <span class="item-icon"></span>
@@ -174,8 +181,9 @@ $hakkimizdaCek = $hakkimizda->fetch(PDO::FETCH_ASSOC);
                             <div class="hb-menu">
                                 <nav>
                                     <ul>
-                                        <li><a href="index.php">Anasayfa</a></li>
-                                        <li class="megamenu-holder"><a href="shop-left-sidebar.html">Kategoriler</a>
+                                        <li><a href="index">Anasayfa</a></li>
+                                        <li class="megamenu-holder">
+                                            <a href="shop-left-sidebar.html">Kategoriler</a>
                                             <ul class="megamenu hb-megamenu">
                                                 <li>
                                                     <a href="">BURASI KATEGORI ADI OLABILIR (ERKEK KADIN)</a>
@@ -236,7 +244,17 @@ $hakkimizdaCek = $hakkimizda->fetch(PDO::FETCH_ASSOC);
                                         </li>
                                         <li><a href="about-us.html">Hakkımızda</a></li>
                                         <li><a href="contact.html">Kargo Bilgileri</a></li>
-                                        <li><a href="shop-left-sidebar.html">İletişim</a></li>
+                                        <li><a href="contact.html">İletişim</a></li>
+                                        <?php
+                                        if (isset($_SESSION['normalUser']) && isset($_SESSION['normalUserPermission'])) { ?>
+                                            <li>
+                                                <a href="logout">
+                                                    <button class="btn btn-danger">
+                                                        <i class="fa fa-sign-out"></i> Çıkış Yap
+                                                    </button>
+                                                </a>
+                                            </li>
+                                        <?php } ?>
                                     </ul>
                                 </nav>
                             </div>

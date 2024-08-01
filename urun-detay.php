@@ -134,89 +134,67 @@ $kategori_id = $urunlerCek['kategori_id'];
             <div id="reviews" class="tab-pane" role="tabpanel">
                 <div class="product-reviews">
                     <div class="product-details-comment-block">
-                        <div class="comment-review">
-                            <span>Grade</span>
-                            <ul class="rating">
-                                <li><i class="fa fa-star-o"></i></li>
-                                <li><i class="fa fa-star-o"></i></li>
-                                <li><i class="fa fa-star-o"></i></li>
-                                <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                <li class="no-star"><i class="fa fa-star-o"></i></li>
-                            </ul>
-                        </div>
-                        <div class="comment-author-infos pt-25">
-                            <span>HTML 5</span>
-                            <em>01-12-18</em>
-                        </div>
-                        <div class="comment-details">
-                            <h4 class="title-block">Demo</h4>
-                            <p>Plaza</p>
-                        </div>
-                        <div class="review-btn">
-                            <a class="review-links" href="#" data-toggle="modal" data-target="#mymodal">Write Your
-                                Review!</a>
+                        <?php
+                        $onay = 1;
+                        $is_spam = 0;
+
+                        $sql = "SELECT yorumlar.*, kullanici.ad_soyad FROM yorumlar INNER JOIN kullanici ON yorumlar.user_id = kullanici.id WHERE yorumlar.urun_id=:urun_id AND yorumlar.onay=:onay AND yorumlar.is_spam=:is_spam ORDER BY yorumlar.id DESC";
+
+                        $stmt = $baglanti->prepare($sql);
+
+                        $stmt->execute([
+                            ':urun_id' => $_GET['id'],
+                            ':onay' => $onay,
+                            ':is_spam' => $is_spam
+                        ]);
+                        $yorumlar = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                        if ($yorumlar) {
+                            foreach ($yorumlar as $yorum) { ?>
+                                <div class="comment-author-infos pt-25">
+                                    <i class="fa fa-user"></i> <span><?= $yorum['ad_soyad'] ?></span>
+                                    <em><?= $yorum['detay'] ?></em>
+                                    <em><?= date('d-m-Y H:i', strtotime($yorum['created_at'])) ?></em>
+                                </div>
+                            <?php }
+                        } else { ?>
+                            <div class="comment-author-infos">
+                                <em>Henüz Yorum Yapılmamıştır. İlk Yorumu Siz Yapın!</em>
+                            </div>
+                        <?php } ?>
+
+                        <div class="review-btn mt-3">
+                            <a class="review-links" href="#" data-toggle="modal" data-target="#mymodal">Yorum Yaz!</a>
                         </div>
                         <!-- Begin Quick View | Modal Area -->
                         <div class="modal fade modal-wrapper" id="mymodal">
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-body">
-                                        <h3 class="review-page-title">Write Your Review</h3>
+                                        <!-- <h3 class="review-page-title">Yorumunuzu Giriniz</h3> -->
                                         <div class="modal-inner-area row">
-                                            <div class="col-lg-6">
-                                                <div class="li-review-product">
-                                                    <img src="images/product/large-size/3.jpg" alt="Li's Product">
-                                                    <div class="li-review-product-desc">
-                                                        <p class="li-product-name">Today is a good day Framed poster</p>
-                                                        <p>
-                                                            <span>Beach Camera Exclusive Bundle - Includes Two Samsung
-                                                                Radiant 360 R3 Wi-Fi Bluetooth Speakers. Fill The Entire
-                                                                Room With Exquisite Sound via Ring Radiator Technology.
-                                                                Stream And Control R3 Speakers Wirelessly With Your
-                                                                Smartphone. Sophisticated, Modern Design </span>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-12">
                                                 <div class="li-review-content">
                                                     <!-- Begin Feedback Area -->
                                                     <div class="feedback-area">
                                                         <div class="feedback">
-                                                            <h3 class="feedback-title">Our Feedback</h3>
-                                                            <form action="#">
-                                                                <p class="your-opinion">
-                                                                    <label>Your Rating</label>
-                                                                    <span>
-                                                                        <select class="star-rating">
-                                                                            <option value="1">1</option>
-                                                                            <option value="2">2</option>
-                                                                            <option value="3">3</option>
-                                                                            <option value="4">4</option>
-                                                                            <option value="5">5</option>
-                                                                        </select>
-                                                                    </span>
-                                                                </p>
+                                                            <h3 class="feedback-title">Yorumunuzu Giriniz</h3>
+                                                            <form action="./admin/app/Http/Controllers/Front/CommentController.php" method="POST" id="yorumForm">
+                                                                <?php
+                                                                // print_r($_SERVER);die;
+
+                                                                ?>
+                                                                <input type="hidden" name="yorum_kaydet_input">
+                                                                <input type="hidden" name="user_id" value="<?= $kullaniciCek['id'] ?>">
+                                                                <input type="hidden" name="urun_id" value="<?= $urunlerCek['id'] ?>">
+                                                                <input type="hidden" name="urun_id" value="<?= $urunlerCek['id'] ?>">
                                                                 <p class="feedback-form">
-                                                                    <label for="feedback">Your Review</label>
-                                                                    <textarea id="feedback" name="comment" cols="45" rows="8" aria-required="true"></textarea>
+                                                                    <label for="feedback">Yorum</label>
+                                                                    <textarea id="detay" name="detay" cols="45" rows="8" aria-required="true"></textarea>
                                                                 </p>
                                                                 <div class="feedback-input">
-                                                                    <p class="feedback-form-author">
-                                                                        <label for="author">Name<span class="required">*</span>
-                                                                        </label>
-                                                                        <input id="author" name="author" value="" size="30" aria-required="true" type="text">
-                                                                    </p>
-                                                                    <p class="feedback-form-author feedback-form-email">
-                                                                        <label for="email">Email<span class="required">*</span>
-                                                                        </label>
-                                                                        <input id="email" name="email" value="" size="30" aria-required="true" type="text">
-                                                                        <span class="required"><sub>*</sub> Required
-                                                                            fields</span>
-                                                                    </p>
                                                                     <div class="feedback-btn pb-15">
-                                                                        <a href="#" class="close" data-dismiss="modal" aria-label="Close">Close</a>
-                                                                        <a href="#">Submit</a>
+                                                                        <a href="#" class="close" data-dismiss="modal" aria-label="Close">Kapat</a>
+                                                                        <a href="javascript:void(0)" name="yorum_kaydet" id="yorum_kaydet">Gönder</a>
                                                                     </div>
                                                                 </div>
                                                             </form>
@@ -308,5 +286,55 @@ $kategori_id = $urunlerCek['kategori_id'];
     </div>
 </section>
 <!-- Li's Laptop Product Area End Here -->
+
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        let yorum_kaydet = document.querySelector('#yorum_kaydet');
+        let yorumForm = document.querySelector('#yorumForm');
+
+        yorum_kaydet.addEventListener('click', (e) => {
+            yorumForm.submit();
+        });
+
+        showMessages();
+
+        function showMessages() {
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": true,
+                "positionClass": "toast-bottom-left",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+
+                "timeOut": "3000",
+                "extendedTimeOut": "1500",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            };
+
+            <?php if (isset($_SESSION["yorum_store_success_message"])) : ?>
+                const commentSuccessMessage = "<?= $_SESSION["yorum_store_success_message"] ?>";
+                if (commentSuccessMessage) {
+                    toastr.success(commentSuccessMessage, 'Başarılı!');
+                    <?php unset($_SESSION["yorum_store_success_message"]); ?>
+                }
+            <?php endif; ?>
+
+            <?php if (isset($_SESSION["yorum_store_error_message"])) : ?>
+                const commentErrorMessage = "<?= $_SESSION["yorum_store_error_message"] ?>";
+                if (commentErrorMessage) {
+                    toastr.error(commentErrorMessage, 'Hata!');
+                    <?php unset($_SESSION["yorum_store_error_message"]); ?>
+                }
+            <?php endif; ?>
+        }
+    });
+</script>
 
 <?php require_once 'footer.php'; ?>
