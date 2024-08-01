@@ -126,6 +126,10 @@
                           <a href="javascript:void(0)" class="btn btn-danger btn-delete" data-id="<?= $urun['id'] ?>">
                             <i class="fa fa-trash btn-delete" data-id="<?= $urun['id'] ?>"></i>
                           </a>
+
+                          <a href="cokluresim?id=<?= $urun['id'] ?>" class="btn btn-info">
+                            Çoklu Resim
+                          </a>
                         </td>
                       </tr>
                     <?php } ?>
@@ -316,7 +320,7 @@
                 createWrapperImgDiv.appendChild(createImgDiv);
 
                 resimDiv.insertAdjacentElement('afterend', createWrapperImgDiv);
-              } 
+              }
 
               $('#urunModal').modal('show');
             })
@@ -470,7 +474,6 @@
             }
           });
         }
-
       });
     });
   </script>

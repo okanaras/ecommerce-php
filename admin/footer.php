@@ -53,6 +53,7 @@
 <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
 <script src="../public/assets/sweetalert2/dist/sweetalert2.all.min.js"></script>
 <script src="../public/assets/toastr/build/toastr.min.js"></script>
+<script src="./public/assets/packages/dropzone/dropzone.js"></script>
 
 
 <script>

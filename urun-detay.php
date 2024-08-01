@@ -30,38 +30,37 @@ $kategori_id = $urunlerCek['kategori_id'];
                 <!-- Product Details Left -->
                 <div class="product-details-left">
                     <div class="product-details-images slider-navigation-1">
-                        <div class="lg-image">
-                            <img src="images/product/large-size/1.jpg" alt="product image">
-                        </div>
-                        <div class="lg-image">
-                            <img src="images/product/large-size/2.jpg" alt="product image">
-                        </div>
-                        <div class="lg-image">
-                            <img src="images/product/large-size/3.jpg" alt="product image">
-                        </div>
-                        <div class="lg-image">
-                            <img src="images/product/large-size/4.jpg" alt="product image">
-                        </div>
-                        <div class="lg-image">
-                            <img src="images/product/large-size/5.jpg" alt="product image">
-                        </div>
-                        <div class="lg-image">
-                            <img src="images/product/large-size/6.jpg" alt="product image">
-                        </div>
+                        <?php
+                        $resimler = $baglanti->prepare("SELECT * FROM cokluresim WHERE urun_id=:urun_id ORDER BY id DESC");
+                        $resimler->execute([':urun_id' => $_GET['id']]);
+                        $resimlerCek = $resimler->fetchAll(PDO::FETCH_ASSOC);
+                        $index = 1;
+
+                        foreach ($resimlerCek as $resim) {
+                        ?>
+                            <div class="lg-image">
+                                <a class="popup-img venobox vbox-item" href="./admin/public/assets/images/cokluresim/<?= $resim['resim'] ?>" data-gall="myGallery">
+                                    <img src="./admin/public/assets/images/cokluresim/<?= $resim['resim'] ?>" alt="<?= $resim['resim'] ?>">
+                                </a>
+                            </div>
+                        <?php } ?>
                     </div>
                     <div class="product-details-thumbs slider-thumbs-1">
-                        <div class="sm-image"><img src="images/product/small-size/1.jpg" alt="product image thumb">
-                        </div>
-                        <div class="sm-image"><img src="images/product/small-size/2.jpg" alt="product image thumb">
-                        </div>
-                        <div class="sm-image"><img src="images/product/small-size/3.jpg" alt="product image thumb">
-                        </div>
-                        <div class="sm-image"><img src="images/product/small-size/4.jpg" alt="product image thumb">
-                        </div>
-                        <div class="sm-image"><img src="images/product/small-size/5.jpg" alt="product image thumb">
-                        </div>
-                        <div class="sm-image"><img src="images/product/small-size/6.jpg" alt="product image thumb">
-                        </div>
+                        <?php
+                        $resimler = $baglanti->prepare("SELECT * FROM cokluresim WHERE urun_id=:urun_id ORDER BY id DESC");
+                        $resimler->execute([':urun_id' => $_GET['id']]);
+                        $resimlerCek = $resimler->fetchAll(PDO::FETCH_ASSOC);
+                        $index = 1;
+
+                        foreach ($resimlerCek as $resim) {
+                        ?>
+                            <a class="popup-img venobox vbox-item" href="./admin/public/assets/images/cokluresim/<?= $resim['resim'] ?>" data-gall="myGallery">
+                                <div class="sm-image">
+                                    <img src="./admin/public/assets/images/cokluresim/<?= $resim['resim'] ?>" alt="<?= $resim['resim'] ?>">
+                                </div>
+                            </a>
+                        <?php } ?>
+
                     </div>
                 </div>
                 <!--// Product Details Left -->
