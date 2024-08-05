@@ -14,4 +14,13 @@ if (!function_exists("convertToSeoLink")) {
     $s = str_replace('.', '', $s);
     $s = trim($s, '-');
     return $s;
-  }}
+  }
+}
+
+if (!function_exists('dd')) {
+  function dd(mixed ...$vars): never
+  {
+    print_r($vars);
+    die();
+  }
+}

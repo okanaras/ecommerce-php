@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/../app/Helpers/Helpers.php';
+
 try {
   $dsn = "mysql:host=localhost; dbname=ecommerce; charset=utf8mb4";
   $username = "root";

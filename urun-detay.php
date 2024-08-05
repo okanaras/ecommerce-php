@@ -80,16 +80,17 @@ $kategori_id = $urunlerCek['kategori_id'];
                             </p>
                         </div>
                         <div class="single-add-to-cart">
-                            <form action="#" class="cart-quantity">
+                            <form action="./admin/app/Http/Controllers/Front/CardController" method="POST" class="cart-quantity">
                                 <div class="quantity">
                                     <label>Adet</label>
                                     <div class="cart-plus-minus">
-                                        <input class="cart-plus-minus-box" value="1" type="text">
+                                        <input class="cart-plus-minus-box" value="1" type="text" name="adet">
                                         <div class="dec qtybutton"><i class="fa fa-angle-down"></i></div>
                                         <div class="inc qtybutton"><i class="fa fa-angle-up"></i></div>
                                     </div>
                                 </div>
-                                <button class="add-to-cart" type="submit">Sepete Ekle</button>
+                                <input type="hidden" name="urun_id" value="<?= $urunlerCek['id'] ?>">
+                                <button class="add-to-cart" type="submit" name="sepete_ekle">Sepete Ekle</button>
                             </form>
                         </div>
                         <div class="product-additional-info">

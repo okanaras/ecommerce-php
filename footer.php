@@ -126,26 +126,22 @@
                             <h3 class="footer-block-title">Bizi Takip Edin!</h3>
                             <ul class="social-link">
                                 <li class="twitter">
-                                    <a href="<?= $ayarCek['twitter'] ?>" data-toggle="tooltip" target="_blank"
-                                        title="Twitter">
+                                    <a href="<?= $ayarCek['twitter'] ?>" data-toggle="tooltip" target="_blank" title="Twitter">
                                         <i class="fa fa-twitter"></i>
                                     </a>
                                 </li>
                                 <li class="facebook">
-                                    <a href="<?= $ayarCek['facebook'] ?>" data-toggle="tooltip" target="_blank"
-                                        title="Facebook">
+                                    <a href="<?= $ayarCek['facebook'] ?>" data-toggle="tooltip" target="_blank" title="Facebook">
                                         <i class="fa fa-facebook"></i>
                                     </a>
                                 </li>
                                 <li class="youtube">
-                                    <a href="<?= $ayarCek['youtube'] ?>" data-toggle="tooltip" target="_blank"
-                                        title="Youtube">
+                                    <a href="<?= $ayarCek['youtube'] ?>" data-toggle="tooltip" target="_blank" title="Youtube">
                                         <i class="fa fa-youtube"></i>
                                     </a>
                                 </li>
                                 <li class="instagram">
-                                    <a href="<?= $ayarCek['instagram'] ?>" data-toggle="tooltip" target="_blank"
-                                        title="Instagram">
+                                    <a href="<?= $ayarCek['instagram'] ?>" data-toggle="tooltip" target="_blank" title="Instagram">
                                         <i class="fa fa-instagram"></i>
                                     </a>
                                 </li>
@@ -154,13 +150,10 @@
                         <!-- Begin Footer Newsletter Area -->
                         <div class="footer-newsletter">
                             <h4>Sign up to newsletter</h4>
-                            <form action="#" method="post" id="mc-embedded-subscribe-form"
-                                name="mc-embedded-subscribe-form" class="footer-subscribe-form validate" target="_blank"
-                                novalidate>
+                            <form action="#" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="footer-subscribe-form validate" target="_blank" novalidate>
                                 <div id="mc_embed_signup_scroll">
                                     <div id="mc-form" class="mc-form subscribe-form form-group">
-                                        <input id="mc-email" type="email" autocomplete="off"
-                                            placeholder="Enter your email" />
+                                        <input id="mc-email" type="email" autocomplete="off" placeholder="Enter your email" />
                                         <button class="btn" id="mc-submit">Subscribe</button>
                                     </div>
                                 </div>
@@ -257,18 +250,12 @@
                                 </div>
                             </div>
                             <div class="product-details-thumbs slider-thumbs-1">
-                                <div class="sm-image"><img src="images/product/small-size/1.jpg"
-                                        alt="product image thumb"></div>
-                                <div class="sm-image"><img src="images/product/small-size/2.jpg"
-                                        alt="product image thumb"></div>
-                                <div class="sm-image"><img src="images/product/small-size/3.jpg"
-                                        alt="product image thumb"></div>
-                                <div class="sm-image"><img src="images/product/small-size/4.jpg"
-                                        alt="product image thumb"></div>
-                                <div class="sm-image"><img src="images/product/small-size/5.jpg"
-                                        alt="product image thumb"></div>
-                                <div class="sm-image"><img src="images/product/small-size/6.jpg"
-                                        alt="product image thumb"></div>
+                                <div class="sm-image"><img src="images/product/small-size/1.jpg" alt="product image thumb"></div>
+                                <div class="sm-image"><img src="images/product/small-size/2.jpg" alt="product image thumb"></div>
+                                <div class="sm-image"><img src="images/product/small-size/3.jpg" alt="product image thumb"></div>
+                                <div class="sm-image"><img src="images/product/small-size/4.jpg" alt="product image thumb"></div>
+                                <div class="sm-image"><img src="images/product/small-size/5.jpg" alt="product image thumb"></div>
+                                <div class="sm-image"><img src="images/product/small-size/6.jpg" alt="product image thumb"></div>
                             </div>
                         </div>
                         <!--// Product Details Left -->
@@ -336,8 +323,7 @@
                                             </li>
                                             <li class="google-plus"><a href="#"><i class="fa fa-google-plus"></i>Google
                                                     +</a></li>
-                                            <li class="instagram"><a href="#"><i
-                                                        class="fa fa-instagram"></i>Instagram</a></li>
+                                            <li class="instagram"><a href="#"><i class="fa fa-instagram"></i>Instagram</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -398,6 +384,64 @@
 <!-- BENIM EKLEDIGIM SCRIPTLER -->
 <script src="public/assets/sweetalert2/dist/sweetalert2.all.min.js"></script>
 <script src="public/assets/toastr/build/toastr.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        document.querySelector('div').addEventListener('click', function(event) {
+            let element = event.target;
+
+            if (element.classList.contains('sepet-sil')) {
+                Swal.fire({
+                    title: "Sepetteki ürünü kaldırmak istediğinize emin misiniz?",
+                    showDenyButton: true,
+                    icon: "info",
+                    confirmButtonText: "Evet",
+                    denyButtonText: "Hayır"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        let dataID = element.getAttribute('data-product-id');
+                        console.log('dataID: ', dataID);
+
+                        let body = {
+                            id: dataID,
+                            action: 'urun-kaldir'
+                        };
+
+                        const route = "./admin/app/Http/Controllers/Front/CardController";
+
+                        fetch(route, {
+                            method: 'DELETE',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(body)
+                        }).then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        }).then(data => {
+                            location.reload();
+                        }).catch(error => {
+                            console.error('Bir hata oluştu:', error);
+                            toastr.error('Bir hata oluştu', 'Hata!');
+                        });
+                    } else if (result.isDenied) {
+                        toastr.info('Herhangi bir işlem gerçekleştirilmedi!', 'Bilgi');
+                    }
+                });
+            }
+        });
+
+        <?php if (isset($_SESSION["sepet_delete_success_message"])) : ?>
+            const commentSuccessMessage = "<?= $_SESSION["sepet_delete_success_message"] ?>";
+            if (commentSuccessMessage) {
+                toastr.success(commentSuccessMessage, 'Başarılı!');
+                <?php unset($_SESSION["sepet_delete_success_message"]); ?>
+            }
+        <?php endif; ?>
+    });
+</script>
 </body>
 
 <!-- index30:23-->
