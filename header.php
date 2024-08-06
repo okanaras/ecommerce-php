@@ -117,13 +117,13 @@ if (isset($_COOKIE['sepet']) && is_array($_COOKIE['sepet'])) {
                                     <ul class="ht-menu">
                                         <!-- Begin Setting Area -->
                                         <li>
-                                            <div class="ht-setting-trigger"><span>Ayarlar</span></div>
+                                            <div class="ht-setting-trigger"><span>Hesabım</span></div>
                                             <div class="setting ht-setting">
                                                 <ul class="ht-setting-list">
                                                     <li><a href="kullanici"><i class="fa fa-gear"></i> Hesabım</a></li>
                                                     <li><a href="sepet"><i class="fa fa-shopping-cart"></i> Sepetim</a></li>
                                                     <li><a href="siparisler"><i class="fa fa-list"></i> Siparişlerim</a></li>
-                                                    <li><a href="sifremi-degistir"><i class="fa fa-key"></i> Şifre</a></li>
+                                                    <li><a href="sifremi-unuttum"><i class="fa fa-key"></i> Şifre Sıfırla</a></li>
                                                     <li>
                                                         <a href="logout">
                                                             <i class="fa fa-sign-out"></i> Çıkış Yap

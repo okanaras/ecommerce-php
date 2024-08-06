@@ -302,7 +302,6 @@
             if (result.isConfirmed) {
               let deleteForm = document.querySelector('#deleteForm');
               let dataID = element.getAttribute('data-id');
-              console.log('dataID: ', dataID);
 
               let body = {
                 id: dataID,

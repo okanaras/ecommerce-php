@@ -4,8 +4,8 @@
     <div class="container">
         <div class="breadcrumb-content">
             <ul>
-                <li><a href="index.html">Anasayfa</a></li>
-                <li class="active">Login & Register</li>
+                <li><a href="index">Anasayfa</a></li>
+                <li class="active">Giriş & Kayıt</li>
             </ul>
         </div>
     </div>
@@ -60,7 +60,7 @@
                             </div>
                         </div>
                         <div class="col-md-4 mt-10 mb-20 text-left text-md-right">
-                            <a href="#">Şifrenizi mi unuttunuz?</a>
+                            <a href="sifremi-unuttum">Şifrenizi mi unuttunuz?</a>
                         </div>
                         <div class="col-md-12">
                             <button name="login" class="register-button mt-0">Giriş Yap</button>

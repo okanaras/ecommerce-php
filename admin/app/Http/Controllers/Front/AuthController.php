@@ -3,6 +3,11 @@ session_start();
 require_once '../../../../database/baglanti.php';
 
 
+// JSON veri alımı
+$input4JsonReq = file_get_contents('php://input');
+$data4JsonReq = json_decode($input4JsonReq, true);
+
+
 /***** login *****/
 if (isset($_POST["login"])) {
   $k_adi = htmlspecialchars($_POST['k_adi']);
@@ -81,5 +86,73 @@ if (isset($_POST["register"])) {
       $_SESSION["front_login_pass_error_message"] = "Şifreler aynı olmak zorundadır.";
       Header("Location:../../../../../login");
     }
+  }
+}
+
+
+/***** sifremi unuttum ******/
+if (isset($data4JsonReq['action']) && $data4JsonReq['action'] == 'sifremi_unuttum') {
+  $k_adi = $data4JsonReq['k_adi'];
+  $yetki = 0;
+
+  $sql = "SELECT * FROM kullanici WHERE kullanici_adi=:k_adi AND yetki=:yetki";
+  $stmt = $baglanti->prepare($sql);
+  $stmt->execute([
+    "k_adi" => $k_adi,
+    "yetki" => $yetki
+  ]);
+
+  $getUser = $stmt->fetch(PDO::FETCH_ASSOC);
+  $hasUser = $stmt->rowCount();
+
+  if ($hasUser) {
+    $sifreOlustur = date("HisY");
+    $username = strtolower(substr($getUser['kullanici_adi'], 0, 5));
+    $finalPass = "$username.$sifreOlustur!";
+    $sifre = Hash('SHA512', $finalPass);
+
+    $id = $getUser['id'];
+    $email = $getUser['email'];
+
+    $updSql = "UPDATE kullanici SET sifre=:sifre WHERE id=:id";
+    $updStmt = $baglanti->prepare($updSql);
+
+    $update = $updStmt->execute([
+      "id" => $id,
+      "sifre" => $sifre
+    ]);
+
+    if ($update) {
+      require_once("../phpmailer/class.phpmailer.php");
+      $fromMail = "info@okanaras.com";
+
+      $mail = new PHPMailer();
+      $mail->IsSMTP();
+      $mail->Host = "smtp.hostinger.web.tr"; // hosting
+      $mail->SMTPAuth = true;
+      $mail->Username = "info@okanaras.com"; // email
+      $mail->Password = "123456"; // mail parolasi
+      $mail->From = (string) $fromMail; //from email
+      $mail->FromName = "Okan Aras"; // from name
+      $mail->AddAddress((string) $email, "Mail gönderimi"); // okan
+      $mail->AddReplyTo((string) $email, 'Reply to name'); // okan
+      $mail->Subject = "Şifremi Unuttum!"; // konu
+      $mail->Body = "Merhaba, sisteme gecici olarak asagidaki sifre ike giris yapabilirsiniz. '$finalPass'"; // message
+      $mail->CharSet = 'UTF-8';
+
+      if ($mail->Send()) {
+        echo "Şifreniz mail adresine iletildi. Lütfen gelen ve spam kutunuzu kontrol ediniz.";
+      } else {
+        echo $mail->ErrorInfo;
+        die();
+      }
+    } else {
+      $msg = "sifre degismedi";
+      echo $msg;
+      die();
+    }
+  } else {
+    echo "kullanici bulunamadi";
+    die();
   }
 }
