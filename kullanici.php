@@ -6,6 +6,9 @@ if ($checkUser == 0) {
 }
 
 ?>
+
+<title>Hesabım - Yazılım Yolcusu</title>
+
 <!-- Begin Li's Breadcrumb Area -->
 <div class="breadcrumb-area">
     <div class="container">

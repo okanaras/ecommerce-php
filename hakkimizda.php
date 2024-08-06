@@ -1,6 +1,9 @@
 <?php
 require_once 'header.php';
 ?>
+
+<title>Hakkımızda - Yazılım Yolcusu</title>
+
 <!-- Begin Li's Breadcrumb Area -->
 <div class="breadcrumb-area">
     <div class="container">
@@ -34,8 +37,7 @@ require_once 'header.php';
             <!-- About Image Start -->
             <div class="col-lg-5 col-md-10">
                 <div class="about-image-wrap">
-                    <img class="img-full" src="./admin/public/assets/images/hakkimizda/<?= $hakkimizdaCek['resim'] ?>"
-                        alt="<?= $hakkimizdaCek['baslik'] ?>" />
+                    <img class="img-full" src="./admin/public/assets/images/hakkimizda/<?= $hakkimizdaCek['resim'] ?>" alt="<?= $hakkimizdaCek['baslik'] ?>" />
                 </div>
             </div>
             <!-- About Image End -->

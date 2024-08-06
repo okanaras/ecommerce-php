@@ -9,6 +9,8 @@ $urunlerCek = $urunler->fetch(PDO::FETCH_ASSOC);
 $kategori_id = $urunlerCek['kategori_id'];
 
 ?>
+<title><?= $urunlerCek['baslik'] ?> - Yazılım Yolcusu</title>
+<meta name="keywords" content="<?= $urunlerCek['etiket'] ?>">
 <!-- Begin Li's Breadcrumb Area -->
 <div class="breadcrumb-area">
     <div class="container">

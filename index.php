@@ -1,5 +1,7 @@
 <?php require_once 'header.php' ?>
 
+<title>Yazılım Yolcusu</title>
+
 <?php require_once 'slider.php' ?>
 
 

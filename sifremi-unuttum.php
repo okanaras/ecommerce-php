@@ -1,4 +1,7 @@
 <?php require_once 'header.php'; ?>
+
+<title>Şifremi Unuttum - Yazılım Yolcusu</title>
+
 <!-- Begin Li's Breadcrumb Area -->
 <div class="breadcrumb-area">
     <div class="container">

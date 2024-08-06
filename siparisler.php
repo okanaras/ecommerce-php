@@ -1,5 +1,7 @@
 <?php require_once './header.php' ?>
 
+<title>Siparişlerim - Yazılım Yolcusu</title>
+
 <!-- Begin Li's Breadcrumb Area -->
 <div class="breadcrumb-area">
     <div class="container">
