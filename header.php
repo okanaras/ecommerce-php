@@ -317,9 +317,9 @@ if (isset($_COOKIE['sepet']) && is_array($_COOKIE['sepet'])) {
                                                 </li>
                                             </ul>
                                         </li>
-                                        <li><a href="about-us.html">Hakkımızda</a></li>
-                                        <li><a href="contact.html">Kargo Bilgileri</a></li>
-                                        <li><a href="contact.html">İletişim</a></li>
+                                        <li><a href="hakkimizda">Hakkımızda</a></li>
+                                        <li><a href="bilgi">Kargo Bilgileri</a></li>
+                                        <li><a href="iletisim">İletişim</a></li>
                                     </ul>
                                 </nav>
                             </div>
