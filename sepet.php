@@ -69,6 +69,8 @@
                                     <?php
                                         $sepetToplam += $urunlerCek['fiyat'] * $amount;
                                         $kdv = $sepetToplam * 0.18;
+
+                                        $toplamFiyat = $kdv + $sepetToplam;
                                     }
                                 } else {
                                     ?>
@@ -106,9 +108,9 @@
                                     <ul>
                                         <li>Toplam <span><?= number_format($sepetToplam, 2, ',', '.') ?> ₺</span></li>
                                         <li>KDV <span><?= number_format($kdv, 2, ',', '.') ?> ₺</span></li>
-                                        <li>Genel Toplam <span><?= number_format($kdv + $sepetToplam, 2, ',', '.') ?> ₺</span></li>
+                                        <li>Genel Toplam <span><?= number_format($toplamFiyat, 2, ',', '.') ?> ₺</span></li>
                                     </ul>
-                                    <a href="#">Alışverişi Tamamla</a>
+                                    <a href="alisveris?toplam-fiyat=<?= number_format($toplamFiyat, 2, ',', '.') ?>">Alışverişi Tamamla</a>
                                 </div>
                             </div>
                         </div>
@@ -191,6 +193,22 @@
             if (commentSuccessMessage) {
                 toastr.success(commentSuccessMessage, 'Başarılı!');
                 <?php unset($_SESSION["sepet_delete_success_message"]); ?>
+            }
+        <?php endif; ?>
+
+        <?php if (isset($_SESSION["siparis_success_message"])) : ?>
+            const commentSuccessMessage = "<?= $_SESSION["siparis_success_message"] ?>";
+            if (commentSuccessMessage) {
+                toastr.success(commentSuccessMessage, 'Başarılı!');
+                <?php unset($_SESSION["siparis_success_message"]); ?>
+            }
+        <?php endif; ?>
+
+        <?php if (isset($_SESSION["siparis_error_message"])) : ?>
+            const commentErrorMessage = "<?= $_SESSION["siparis_error_message"] ?>";
+            if (commentErrorMessage) {
+                toastr.error(commentErrorMessage, 'Hata!');
+                <?php unset($_SESSION["siparis_error_message"]); ?>
             }
         <?php endif; ?>
     });

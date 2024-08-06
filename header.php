@@ -96,6 +96,51 @@ if (isset($_COOKIE['sepet']) && is_array($_COOKIE['sepet'])) {
     <div class="body-wrapper">
         <!-- Begin Header Area -->
         <header>
+            <!-- Begin Header Top Area -->
+            <div class="header-top bg-dark text-white">
+                <div class="container">
+                    <div class="row">
+                        <!-- Begin Header Top Left Area -->
+                        <div class="col-lg-3 col-md-4">
+                            <div class="header-top-left">
+                                <ul class="phone-wrap">
+                                    <li><span class="text-white">Telefon: </span><a href="tel:<?= $ayarCek['telefon'] ?>" class="text-white"><?= $ayarCek['telefon'] ?></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- Header Top Left Area End Here -->
+                        <!-- Begin Header Top Right Area -->
+                        <?php
+                        if (isset($_SESSION['normalUser']) && isset($_SESSION['normalUserPermission'])) { ?>
+                            <div class="col-lg-9 col-md-8">
+                                <div class="header-top-right">
+                                    <ul class="ht-menu">
+                                        <!-- Begin Setting Area -->
+                                        <li>
+                                            <div class="ht-setting-trigger"><span>Ayarlar</span></div>
+                                            <div class="setting ht-setting">
+                                                <ul class="ht-setting-list">
+                                                    <li><a href="kullanici"><i class="fa fa-gear"></i> Hesabım</a></li>
+                                                    <li><a href="sepet"><i class="fa fa-shopping-cart"></i> Sepetim</a></li>
+                                                    <li><a href="siparisler"><i class="fa fa-list"></i> Siparişlerim</a></li>
+                                                    <li><a href="sifremi-degistir"><i class="fa fa-key"></i> Şifre</a></li>
+                                                    <li>
+                                                        <a href="logout">
+                                                            <i class="fa fa-sign-out"></i> Çıkış Yap
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                        <!-- Setting Area End Here -->
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- Header Top Right Area End Here -->
+                        <?php } ?>
+                    </div>
+                </div>
+            </div>
             <!-- Begin Header Middle Area -->
             <div class="header-middle pl-sm-0 pr-sm-0 pl-xs-0 pr-xs-0">
                 <div class="container">
@@ -157,7 +202,7 @@ if (isset($_COOKIE['sepet']) && is_array($_COOKIE['sepet'])) {
                                                             <div class="minicart-product-details">
                                                                 <h6><a href="single-product.html"><?= $urunlerCek['baslik'] ?></a>
                                                                 </h6>
-                                                                <span><?= number_format($urunlerCek['fiyat'], 2, ',', '.') . " ₺ x " . $amount . " adet"?></span>
+                                                                <span><?= number_format($urunlerCek['fiyat'], 2, ',', '.') . " ₺ x " . $amount . " adet" ?></span>
                                                             </div>
                                                             <a href="javascript:void(0)" class="sepet-sil" data-product-id="<?= $urun_id ?>">
                                                                 <button class="close sepet-sil" title="Sil" data-product-id="<?= $urun_id ?>">
@@ -275,16 +320,6 @@ if (isset($_COOKIE['sepet']) && is_array($_COOKIE['sepet'])) {
                                         <li><a href="about-us.html">Hakkımızda</a></li>
                                         <li><a href="contact.html">Kargo Bilgileri</a></li>
                                         <li><a href="contact.html">İletişim</a></li>
-                                        <?php
-                                        if (isset($_SESSION['normalUser']) && isset($_SESSION['normalUserPermission'])) { ?>
-                                            <li>
-                                                <a href="logout">
-                                                    <button class="btn btn-danger">
-                                                        <i class="fa fa-sign-out"></i> Çıkış Yap
-                                                    </button>
-                                                </a>
-                                            </li>
-                                        <?php } ?>
                                     </ul>
                                 </nav>
                             </div>
