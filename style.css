@@ -402,7 +402,7 @@ input {
 	box-shadow: none;
 	padding-left: 10px;
 	font-size: 14px;
-	color: #626262;
+	color: #fff;
 	width: 100%;
 }
 select {
@@ -2794,7 +2794,7 @@ textarea:focus {
 .shipping-text h2 {
 	font-size: 16px;
 	font-weight: 500;
-	color: #242424;
+	color: #fff;
 	padding-bottom: 10px;
 }
 .shipping-text p {
@@ -2815,7 +2815,7 @@ textarea:focus {
 	color: #888;
 }
 .footer-static-middle .des > li {
-	color: #888;
+	color: #fff;
 	font-size: 14px;
 	margin: 0;
 	font-weight: 400;
@@ -2832,7 +2832,7 @@ textarea:focus {
 	font-size: 20px;
 	line-height: 24px;
 	font-weight: 500;
-	color: #242424;
+	color: #fff;
 	margin: 0 0 15px 0;
 	cursor: pointer;
 	padding-top: 20px;
@@ -2854,7 +2854,7 @@ textarea:focus {
 	transition: all 0.3s ease-in-out;
 }
 .footer-block > ul > li > a:hover {
-	color: #242424;
+	color: #fed700;
 	text-decoration: underline;
 	transition: all 0.3s ease-in-out;
 }
@@ -2911,7 +2911,7 @@ textarea:focus {
 	font-size: 20px;
 	line-height: 24px;
 	font-weight: 500;
-	color: #242424;
+	color: #fff;
 	margin: 25px 0 25px 0;
 	cursor: pointer;
 	text-transform: capitalize;
@@ -2967,7 +2967,7 @@ text-align: center;
 	color: #888;
 }
 .footer-links > ul > li > a:hover {
-	color: #242424;
+	color: #fed700;
 	text-decoration: underline;
 }
 /*----------------------------------------*/

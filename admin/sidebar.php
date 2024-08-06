@@ -51,6 +51,15 @@
             </a>
           </li>
           <li class="nav-item">
+            <a href="abone" class="nav-link <?= $sideUri === 'abone' ? 'active' : '' ?>">
+              <i class="nav-icon fa fa-heart"></i>
+              <p>
+                Abonelikler
+                <span class="right badge badge-danger">Yeni</span>
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
             <a href="siparisler" class="nav-link <?= $sideUri === 'siparisler' ? 'active' : '' ?>">
               <i class="nav-icon fa fa-shopping-cart"></i>
               <p>
