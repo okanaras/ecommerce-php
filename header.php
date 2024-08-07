@@ -88,6 +88,42 @@ if (isset($_COOKIE['sepet']) && is_array($_COOKIE['sepet'])) {
     <!-- BENIM EKLEDIGIM CSSLER -->
     <link rel="stylesheet" href="public/assets/sweetalert2/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="public/assets/toastr/build/toastr.min.css">
+    <style>
+        .whatsapp-top {
+            position: fixed;
+            visibility: hidden;
+            opacity: 0;
+            left: 15px;
+            bottom: -15px;
+            z-index: 99999;
+            background: #4dc247;
+            width: 50px;
+            height: 50px;
+            border-radius: 50px;
+            transition: all 0.4s;
+            -webkit-transition: all 0.4s;
+            -moz-transition: all 0.4s;
+            -ms-transition: all 0.4s;
+            -o-transition: all 0.4s;
+        }
+
+        .whatsapp-top i {
+            font-size: 32px;
+            color: #fff;
+            line-height: 0;
+        }
+
+        .whatsapp-top:hover {
+            background: #1ca855;
+            color: #fff;
+        }
+
+        .whatsapp-top.active {
+            visibility: visible;
+            opacity: 1;
+            bottom: 15px;
+        }
+    </style>
 </head>
 
 <body>

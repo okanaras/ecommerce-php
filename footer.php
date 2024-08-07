@@ -1,3 +1,5 @@
+<a title="whatsapp sipariş" href="https://wa.me/+905379282534?text=Merhaba,bilgi almak istiyorum!" class="whatsapp-top d-flex align-items-center justify-content-center"><i class="fa fa-whatsapp"></i></a>
+
 <!-- Begin Footer Area -->
 <div class="footer bg-dark">
     <!-- Begin Footer Static Top Area -->
@@ -460,7 +462,7 @@
                 <?php unset($_SESSION["abone_store_error_message"]); ?>
             }
         <?php endif; ?>
-        
+
         <?php if (isset($_SESSION["sepet_delete_success_message"])) : ?>
             const commentSuccessMessage = "<?= $_SESSION["sepet_delete_success_message"] ?>";
             if (commentSuccessMessage) {
@@ -468,6 +470,19 @@
                 <?php unset($_SESSION["sepet_delete_success_message"]); ?>
             }
         <?php endif; ?>
+
+        const whatsappTop = document.querySelector('.whatsapp-top');
+        if (whatsappTop) {
+            const togglewhatsappTop = function() {
+                whatsappTop.classList.add('active');
+            }
+            window.addEventListener('load', togglewhatsappTop);
+            document.addEventListener('scroll', togglewhatsappTop);
+            whatsappTop.addEventListener('click', window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            }));
+        }
     });
 </script>
 </body>
