@@ -52,33 +52,45 @@
                 <table class="table table-hover text-nowrap">
                   <thead>
                     <tr>
-                      <th>#</th>
                       <th>Sipariş Id</th>
-                      <th>Kullanıcı Id</th>
+                      <th>Kullanıcı Adı</th>
+                      <th>Ürün Adı</th>
                       <th>Ürün Adet</th>
                       <th>Ürün Fiyat</th>
+                      <th>KDV</th>
                       <th>Toplam Fiyat</th>
+                      <th>Sipariş Durumu</th>
                       <th>Ödeme Durumu</th>
+                      <th>Yeni Adet</th>
+                      <th>Sipariş Notu</th>
                       <th>Sipariş Tarihi</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     <?php
-                    $siparisler = $baglanti->prepare("SELECT * FROM siparisler ORDER BY id DESC");
+                    $siparisler = $baglanti->prepare(
+                      "SELECT siparisler.*, urunler.baslik AS urun_adi, kullanici.kullanici_adi AS username
+                       FROM siparisler 
+                       INNER JOIN urunler ON siparisler.urun_id = urunler.id 
+                       INNER JOIN kullanici ON siparisler.user_id = kullanici.id 
+                       ORDER BY siparisler.id DESC
+                      "
+                    );
+
                     $siparisler->execute();
                     $siparislerCek = $siparisler->fetchAll(PDO::FETCH_ASSOC);
-                    $index = 1;
 
                     foreach ($siparislerCek as $siparis) {
                     ?>
                       <tr id=<?= "row-{$siparis['id']}" ?>>
-                        <td><?= $index++ ?></td>
                         <td><?= $siparis['id']   ?? '-' ?></td>
-                        <td><?= $siparis['user_id']   ?? '-' ?></td>
-                        <td><?= $siparis['urun_adet'] ?></td>
-                        <td><?= $siparis['urun_fiyat'] ?></td>
-                        <td><?= $siparis['toplam_fiyat'] ?></td>
+                        <td><?= $siparis['username']   ?? '-' ?></td>
+                        <td><?= $siparis['urun_adi']   ?? '-' ?></td>
+                        <td><?= number_format($siparis['urun_adet'], 0, '', '.') ?></td>
+                        <td><?= number_format($siparis['urun_fiyat'], 2, ',', '.') ?>₺</td>
+                        <td><?= number_format(($siparis['urun_adet'] * $siparis['urun_fiyat']) * 0.18, 2, ',', '.') ?>₺</td>
+                        <td><?= $siparis['toplam_fiyat'] ?>₺</td>
                         <td>
                           <?php
                           $statusText = "";
@@ -110,6 +122,22 @@
                             : "<a class='btn btn-dark text-white'>Kart İle Ödeme</a>"
                           ?>
                         </td>
+                        <td id='<?= isset($siparis['yeni_adet']) ? "row-{$siparis['id']}-urun" : "row-{$siparis['id']}-urun"  ?>'><?= isset($siparis['yeni_adet']) ? number_format($siparis['yeni_adet'], 0, '', '.') : number_format($siparis['urun_adet'], 0, '', '.') ?></td>
+
+                        <td <?php if (isset($siparis['siparis_not']) && strlen(trim($siparis['siparis_not'])) > 15) {
+                              echo 'data-bs-toggle="tooltip" data-bs-placement="left" title="' . $siparis['siparis_not'] . '"';
+                            } ?>>
+                          <?php
+                          if (isset($siparis['siparis_not']) == '' || !isset($siparis['siparis_not'])) {
+                            echo '<span class="badge badge-info text-white">---</span>';
+                          } else if (strlen($siparis['siparis_not']) > 15) {
+                            echo substr($siparis['siparis_not'], 0, 15) . '...';
+                          } else {
+                            echo $siparis['siparis_not'];
+                          } ?>
+                        </td>
+
+                        <td><?= $siparis['created_at'] ?></td>
                         <td>
                           <a href="javascript:void(0)" data-id="<?= $siparis['id'] ?>" class="btn btn-success btn-edit">
                             <i class="fa fa-pen btn-edit" data-id="<?= $siparis['id'] ?>"></i>
@@ -137,13 +165,54 @@
   </div>
   <!-- /.content-wrapper -->
 
-  <!-- Button trigger modal -->
-
+  <!-- Modal -->
+  <div class="modal fade" id="siparisModal" tabindex="-1" role="dialog" aria-labelledby="siparisModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="siparisModalLabel"><span id="spanSiparisId"></span> Nolu Siparişi Güncelle</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <input type="hidden" name="siparisId" id="siparisId">
+            <div class="form-group col-md-12">
+              <label for="adet">Yeni Sipariş Adeti</label>
+              <input type="number" class="form-control" id="adet" name="adet" readonly>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+          <button type="button" class="btn btn-primary btn-siparis-guncelle" name="siparis_guncelle_admin">Güncelle</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      let btnSiparisGuncelle = document.querySelector('.btn-siparis-guncelle');
+
       document.querySelector('.table').addEventListener('click', function(event) {
+        let siparisId = document.querySelector('#siparisId');
+        let spanSiparisId = document.querySelector('#spanSiparisId');
         let element = event.target;
+
+        if (element.classList.contains('btn-edit')) {
+          let siparisID = element.getAttribute('data-id');
+          siparisId.value = siparisID;
+          spanSiparisId.textContent = siparisID;
+
+          let urunRowQuery = `#row-${siparisID}-urun`;
+          let urunAdetRow = document.querySelector(urunRowQuery);
+          let urunAdet = document.querySelector('#adet');
+          urunAdet.value = urunAdetRow.textContent;
+
+          $('#siparisModal').modal('show');
+        }
 
         if (element.classList.contains('btn-change-status')) {
           Swal.fire({
@@ -251,7 +320,9 @@
                 action: 'deleteSiparis'
               };
 
-              fetch('islem/islem.php', {
+              let route = './app/Http/Controllers/Admin/OrderController';
+
+              fetch(route, {
                 method: 'DELETE',
                 headers: {
                   'Content-Type': 'application/json',
@@ -262,7 +333,6 @@
                 if (!response.ok) {
                   throw new Error('Network response was not ok');
                 }
-                console.log('response: ', response);
                 return response.json();
               }).then(data => {
                 let row = document.querySelector(`#row-${data.id}`);
@@ -280,6 +350,55 @@
         }
 
       });
+
+      btnSiparisGuncelle.addEventListener('click', () => {
+        let urunAdet = document.querySelector('#adet');
+        let siparisId = document.querySelector('#siparisId');
+
+
+        let body = {
+          id: siparisId.value,
+          adet: urunAdet.value,
+          action: 'siparis-guncelle-admin'
+        };
+        console.log('siparisID: ', siparisId);
+
+        const route = "./app/Http/Controllers/Admin/OrderController.php";
+
+        fetch(route, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(body)
+        }).then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        }).then(data => {
+          location.reload();
+        }).catch(error => {
+          console.error('Bir hata oluştu:', error);
+          toastr.error('Bir hata oluştu', 'Hata!');
+        });
+      });
+
+      <?php if (isset($_SESSION["fiyat_update_success_message"])) : ?>
+        const commentSuccessMessage = "<?= $_SESSION["fiyat_update_success_message"] ?>";
+        if (commentSuccessMessage) {
+          toastr.success(commentSuccessMessage, 'Başarılı!');
+          <?php unset($_SESSION["fiyat_update_success_message"]); ?>
+        }
+      <?php endif; ?>
+
+      <?php if (isset($_SESSION["fiyat_update_error_message"])) : ?>
+        const commentErrorMessage = "<?= $_SESSION["fiyat_update_error_message"] ?>";
+        if (commentErrorMessage) {
+          toastr.error(commentErrorMessage, 'Başarılı!');
+          <?php unset($_SESSION["fiyat_update_error_message"]); ?>
+        }
+      <?php endif; ?>
     });
   </script>
 
