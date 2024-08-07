@@ -1,5 +1,31 @@
 <?php
 require_once 'header.php';
+
+// pagination
+$productCountQuery = $baglanti->prepare("SELECT * FROM urunler WHERE kategori_id=:kategori_id AND durum=:durum");
+$productCountQuery->execute([
+    ":kategori_id" => $_GET["id"],
+    ":durum" => 1
+]);
+$urunSayisi = $productCountQuery->rowCount();
+$perPage = 8;
+$page = $_GET['sayfa'] ?? 1;
+$startedPage = $page * $perPage - $perPage;
+
+
+$urunler = $baglanti->prepare("SELECT * FROM urunler WHERE kategori_id=:kategori_id AND durum=:durum ORDER BY sira DESC LIMIT $startedPage, $perPage");
+$urunler->execute([
+    ":kategori_id" => $_GET["id"],
+    ":durum" => 1
+]);
+$urunlerCek = $urunler->fetchAll(PDO::FETCH_ASSOC);
+
+
+$currentUrunSayisi = $urunler->rowCount();
+$currentTotalProduct = $startedPage + $currentUrunSayisi;
+
+$sayfaSayisi = ceil($urunSayisi / $perPage);
+
 ?>
 
 <title>Ürünler - Yazılım Yolcusu</title>
@@ -32,7 +58,7 @@ require_once 'header.php';
                 <div class="shop-top-bar mt-30">
                     <div class="shop-bar-inner">
                         <div class="toolbar-amount">
-                            <span>Gösteriliyor 1 to 9 </span>
+                            <span><?= "Bu kategoriye ait toplam <span class='text-info'>$urunSayisi</span> ürün mevcuttur. Mevcut gösterilen ürün aralığı <span class='text-info'>$startedPage - $currentTotalProduct</span> şeklindedir." ?></span>
                         </div>
                     </div>
                     <!-- product-select-box start -->
@@ -57,14 +83,7 @@ require_once 'header.php';
                             <div class="product-area shop-product-area">
                                 <div class="row">
                                     <?php
-                                    $urunler = $baglanti->prepare("SELECT * FROM urunler WHERE kategori_id=:kategori_id AND durum=:durum ORDER BY sira DESC");
-                                    $urunler->execute([
-                                        ":kategori_id" => $_GET["id"],
-                                        ":durum" => 1
-                                    ]);
-                                    $urunlerCek = $urunler->fetchAll(PDO::FETCH_ASSOC);
                                     $index = 1;
-
                                     foreach ($urunlerCek as $urun) {
                                     ?>
                                         <div class="col-lg-3 col-md-4 col-sm-6 mt-40">
@@ -107,17 +126,20 @@ require_once 'header.php';
                         <div class="paginatoin-area">
                             <div class="row">
                                 <div class="col-lg-6 col-md-6">
-                                    <p>Showing 1-12 of 13 item(s)</p>
+                                    <p><?= $currentUrunSayisi ?> adet ürün bulundu.</p>
                                 </div>
                                 <div class="col-lg-6 col-md-6">
                                     <ul class="pagination-box">
-                                        <li><a href="#" class="Previous"><i class="fa fa-chevron-left"></i> Previous</a>
-                                        </li>
-                                        <li class="active"><a href="#">1</a></li>
-                                        <li><a href="#">2</a></li>
-                                        <li><a href="#">3</a></li>
                                         <li>
-                                            <a href="#" class="Next"> Next <i class="fa fa-chevron-right"></i></a>
+                                            <a href="<?= $page == 1 ? 'javascript:void(0)' : '?sayfa=' . $page - 1 ?>" class="Previous"><i class="fa fa-chevron-left"></i> Geri</a>
+                                        </li>
+                                        <?php
+                                        for ($i = 1; $i <= $sayfaSayisi; $i++) {
+                                        ?>
+                                            <li class="<?= isset($page) && $page == $i ? 'active' : '' ?>"><a href="?sayfa=<?= $i ?>"><?= $i ?></a></li>
+                                        <?php } ?>
+                                        <li>
+                                            <a href="<?= $sayfaSayisi == $page ? 'javascript:void(0)' : '?sayfa=' . $page + 1 ?>" class="Next"> İleri <i class="fa fa-chevron-right"></i></a>
                                         </li>
                                     </ul>
                                 </div>

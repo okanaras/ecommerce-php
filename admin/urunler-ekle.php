@@ -87,7 +87,7 @@ require_once 'sidebar.php';
 
                 <div class="form-group col-md-6">
                   <label for="fiyat">Ürün Fiyat</label>
-                  <input type="text" class="form-control" id="fiyat" name="fiyat" required placeholder="Ürün fiyatı giriniz">
+                  <input type="number" class="form-control" id="fiyat" name="fiyat" required placeholder="Ürün fiyatı giriniz">
                 </div>
 
                 <div class="form-group col-md-6">
